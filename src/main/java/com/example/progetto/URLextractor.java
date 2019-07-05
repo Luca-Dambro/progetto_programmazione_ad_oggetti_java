@@ -6,7 +6,7 @@ import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-public class ToJSON {
+public class URLextractor {
 
     private static String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
@@ -17,13 +17,16 @@ public class ToJSON {
         return sb.toString();
     }
 
-    public JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+    public String readUrlFromJSON(String url) throws IOException, JSONException {
         InputStream is = new URL(url).openStream();
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             String jsonText = readAll(rd);
             JSONObject json = new JSONObject(jsonText);
-            return json;
+            Csvlink linking = new Csvlink(json);
+            link= linking.link;
+            return link;
+
         } finally {
             is.close();
         }
