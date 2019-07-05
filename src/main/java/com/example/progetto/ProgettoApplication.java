@@ -15,7 +15,7 @@ public class ProgettoApplication {
         URLextractor estrattore = new URLextractor();
         String link = " http://data.europa.eu/euodp/data/api/3/action/package_show?id=eu-cohesion-policy-historic-eu-payments-regionalised-and-modelled";
 
-        System.out.println( estrattore.readJsonFromUrl(link));
+        System.out.println( estrattore.readUrlFromJSON(link));
 
     }
 
