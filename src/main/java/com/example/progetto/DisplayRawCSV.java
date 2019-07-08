@@ -33,6 +33,9 @@ public class DisplayRawCSV {
         catch (EOFException e){
             System.out.println("lettura del file terminata correttamente");
         }
+        catch (IOException e){
+            System.out.println("il file csv con contiene alcun valore");
+        }
     }
 }
 

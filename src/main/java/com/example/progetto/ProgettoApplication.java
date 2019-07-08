@@ -17,7 +17,7 @@ public class ProgettoApplication {
         try {
             URLextractor extractor = new URLextractor();
             String csv_link = extractor.readUrlFromJSON(link);
-            /*classe di test, si visualizza il fine csv grezzo senza un parsing in classi*/
+            /*classe di test, si visualizza il file csv senza un parsing in classi*/
             DisplayRawCSV lettore = new DisplayRawCSV();
             lettore.reader(csv_link);
             System.out.println("termine programma");
