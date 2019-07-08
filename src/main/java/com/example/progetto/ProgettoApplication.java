@@ -15,8 +15,8 @@ public class ProgettoApplication {
         /*si estrae dal file JSON fornito il link al fine CSV più corposo*/
         try {
             URLextractor extractor = new URLextractor();
-            String csv_link = estrattore.readUrlFromJSON(link);
-            System.out.println(link);
+            String csv_link = extractor.readUrlFromJSON(link);
+            System.out.println(csv_link);
             /*classe di test, si visualizza il fine csv grezzo senza un parsing in classi*/
             DisplayRawCSV lettore = new DisplayRawCSV();
             lettore.reader(csv_link);
@@ -28,21 +28,6 @@ public class ProgettoApplication {
         catch (JSONException e) {
             System.out.println("JSONException -> " + e);
         }
-
-            CsvSplitter splitter = new CsvSplitter(csv);
-
-            splitter.guessDelimiter();
-
-            while (true)
-            {
-                PrintStringArray.printFormatted(splitter.getFirstLine(), splitter.splitLine());
-            }
-
-
-        }
-
-
-
 
     }
 
