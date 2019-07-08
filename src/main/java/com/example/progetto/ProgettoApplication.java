@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.EOFException;
 import java.io.IOException;
 
 @SpringBootApplication
@@ -16,18 +17,20 @@ public class ProgettoApplication {
         try {
             URLextractor extractor = new URLextractor();
             String csv_link = extractor.readUrlFromJSON(link);
-            System.out.println(csv_link);
             /*classe di test, si visualizza il fine csv grezzo senza un parsing in classi*/
             DisplayRawCSV lettore = new DisplayRawCSV();
             lettore.reader(csv_link);
+            System.out.println("termine programma");
             }
-        catch (IOException e)
-        {
-            System.out.println("IOException -> " + e);
-        }
+
+        catch (IOException e){
+                System.out.println("IOException -> " + e);
+            }
         catch (JSONException e) {
             System.out.println("JSONException -> " + e);
         }
+
+        /*continuare qua*/
 
     }
 
