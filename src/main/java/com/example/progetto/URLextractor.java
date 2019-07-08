@@ -25,6 +25,7 @@ public class URLextractor {
             JSONObject json = new JSONObject(jsonText);
             Csvlink linking = new Csvlink(json);
             return linking.link;
+
         } finally {
             is.close();
         }
@@ -37,5 +38,9 @@ class Csvlink {
     Csvlink (JSONObject json) throws JSONException {
         link = (String) json.getJSONObject("result").getJSONArray("resources").getJSONObject(3).get("url");
 
+    }
+
+    public String getlink(){
+        return link;
     }
 }
