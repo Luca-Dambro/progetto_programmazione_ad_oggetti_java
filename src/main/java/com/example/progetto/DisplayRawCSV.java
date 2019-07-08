@@ -14,7 +14,7 @@ public class DisplayRawCSV {
         URL url = new URL(link_csv);
         URLConnection connection = url.openConnection();
         String line = "";
-        String cvsSplitBy = ",";
+        String cvsSplitBy = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
 
