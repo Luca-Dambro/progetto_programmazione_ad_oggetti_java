@@ -26,7 +26,9 @@ public class URLextractor {
             Csvlink linking = new Csvlink(json);
             return linking.getlink();
 
-        } finally {
+        }
+
+        finally {
             is.close();
         }
 
