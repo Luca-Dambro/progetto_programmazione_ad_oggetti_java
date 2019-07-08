@@ -8,10 +8,9 @@ import java.net.URLConnection;
 
 public class CsvReader {
 
-    public void reader() throws IOException {
+    public void reader(String link_csv) throws IOException {
 
-        URL url = null;
-        url = new URL("https://cohesiondata.ec.europa.eu/api/views/tc55-7ysv/rows.csv?accessType=DOWNLOAD");
+        URL url = new URL(link_csv);
         URLConnection connection = url.openConnection();
 
         InputStreamReader input = new InputStreamReader(connection.getInputStream());
