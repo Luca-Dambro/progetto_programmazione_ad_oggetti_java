@@ -13,8 +13,8 @@ public class ProgettoApplication {
         SpringApplication.run(ProgettoApplication.class, args);
 
         URLextractor estrattore = new URLextractor();
-        String link = " http://data.europa.eu/euodp/data/api/3/action/package_show?id=eu-cohesion-policy-historic-eu-payments-regionalised-and-modelled";
-        String csv_link=estrattore.readUrlFromJSON(link);
+        String link = "http://data.europa.eu/euodp/data/api/3/action/package_show?id=eu-cohesion-policy-historic-eu-payments-regionalised-and-modelled";
+        String csv_link = estrattore.readUrlFromJSON(link);
 
         CsvReader lettore = new CsvReader();
         lettore.reader (csv_link);
