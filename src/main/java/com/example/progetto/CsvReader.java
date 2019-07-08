@@ -8,10 +8,9 @@ import java.net.URLConnection;
 
 public class CsvReader {
 
-    public void reader() throws IOException {
+    public void reader(String link_csv) throws IOException {
 
-        URL url = null;
-        url = new URL("http://data.europa.eu/euodp/data/api/3/action/package_show?id=eu-cohesion-policy-historic-eu-payments-regionalised-and-modelled");
+        URL url = new URL(link_csv);
         URLConnection connection = url.openConnection();
 
         InputStreamReader input = new InputStreamReader(connection.getInputStream());
