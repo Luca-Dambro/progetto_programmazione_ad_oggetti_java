@@ -34,7 +34,7 @@ class Programming_Period{
     }
 }
 
-/*Nomenclatura delle Unità territoriali statiche dell'EU*/
+/*Nomenclatura delle Unità territoriali statistiche dell'EU*/
 class Country_NUTS{
     private String NUTS1_ID,NUTS2_ID,NUTS1_name;
 
