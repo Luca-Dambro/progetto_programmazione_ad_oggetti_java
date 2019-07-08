@@ -11,25 +11,6 @@ public class DisplayRawCSV {
 
     public void reader(String link_csv) throws IOException {
 
-        //codice legacy per la visualizzazione grezza del csv
-        /*URL url = new URL(link_csv);
-        URLConnection connection = url.openConnection();
-
-        InputStreamReader input = new InputStreamReader(connection.getInputStream());
-        BufferedReader buffer = null;
-        String line = "";
-        String csvSplitBy = ",";
-
-        buffer = new BufferedReader(input);
-        while ((line = buffer.readLine()) != null) {
-            String[] x = line.split(csvSplitBy);
-            System.out.println(line);
-
-        }
-        if (buffer != null) {
-            buffer.close();
-        }*/
-
         URL url = new URL(link_csv);
         URLConnection connection = url.openConnection();
         String line = "";
@@ -37,25 +18,25 @@ public class DisplayRawCSV {
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
 
+            boolean flag=true;
+            String[] header = new String[11];
             while ((line = br.readLine()) != null) {
-
-                // use comma as separator
                 String[] row = line.split(cvsSplitBy);
+                for(int i=0; i<row.length; i++) {
 
-                System.out.print("Country [code= " + row[0] + " , year=" + row[5] + "]\t");
-                System.out.print("EU territorial ID [code 1= " + row[1] + " , code 2=" + row[2] +", name="+row[3] +"]\t");
-                System.out.print("Fund type and period [fund= " + row[4] + " , period=" + row[6] +"]\t");
-                System.out.print("Data [");
-                for (int j=7; j<11; j++)
-                {
-                    System.out.print(row[j]+"\t");
-                };
-                System.out.print("]\n");
-
-                break;
+                    if (flag == true) {
+                        header[i]=(row[i]);
+                        System.out.println(header[i]);
+                        if (i == (row.length) - 1) {
+                            flag = false;
+                        }
+                        continue;
+                    }
+                    System.out.print(header[i]);
+                    System.out.print("["+row[i]+"]\t");
+                }
+                System.out.println();
             }
-
-
 
         }
         catch (FileNotFoundException e) {
@@ -65,10 +46,8 @@ public class DisplayRawCSV {
             e.printStackTrace();
         }
 
-
-
-
     }
+
 
 }
 
