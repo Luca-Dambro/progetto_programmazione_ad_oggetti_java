@@ -11,7 +11,7 @@ public class CsvReader {
     public void reader() throws IOException {
 
         URL url = null;
-        url = new URL("http://data.europa.eu/euodp/data/api/3/action/package_show?id=eu-cohesion-policy-historic-eu-payments-regionalised-and-modelled");
+        url = new URL("https://cohesiondata.ec.europa.eu/api/views/tc55-7ysv/rows.csv?accessType=DOWNLOAD");
         URLConnection connection = url.openConnection();
 
         InputStreamReader input = new InputStreamReader(connection.getInputStream());
