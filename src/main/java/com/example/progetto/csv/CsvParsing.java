@@ -1,8 +1,6 @@
-package com.example.progetto;
+package com.example.progetto.csv;
 
 import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
 import java.time.Year;
 
 public class CsvParsing {
