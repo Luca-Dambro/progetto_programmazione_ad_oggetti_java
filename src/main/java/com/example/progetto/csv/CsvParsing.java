@@ -4,35 +4,48 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CsvParsing {
 
+    public void display(ArrayList<CsvRow> array){
+        for(CsvRow c: array) {
+            System.out.println(c);
+        }
+    }
+
      public String cvsSplitByStd = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
+     ArrayList<CsvRow> rows= new ArrayList<CsvRow>();
 
-
-    public void parser(String link_csv) throws IOException {
+    public ArrayList<CsvRow> parser(String link_csv) throws IOException {
 
         URL url = new URL(link_csv);
         URLConnection connection = url.openConnection();
         String line = "";
-
+        FetchCsvData GetDataRow=new FetchCsvData();
+        CsvRow objrow = new CsvRow();
+        int count=0;
         try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream())))
         {
-            FetchCsvData GetDataRow=new FetchCsvData();
-            ArrayList<String> rows= new ArrayList<String>();
             while ((line = GetDataRow.getLine(br)) != null) {
-                CsvRow objrow = new CsvRow();
+                if(count==0) {
+                    count++;
+                    continue;
+                }
+                count++;
                 String[] row = GetDataRow.splitLine(line,cvsSplitByStd);
                 objrow.setCountry(row[0]);
                 objrow.setCountry_codes(row[1],row[2],row[3]);
                 objrow.setFund(row[4]);
                 objrow.setYear(Integer.parseInt(row[5]));
                 objrow.setField(row[6]);
+                if(row[7].equals(""))
+                    row[7]="0";
                 objrow.setEU_Payment_annual(Integer.parseInt(row[7]));
                 objrow.setModelled_annual_expenditure(Integer.parseInt(row[8]));
                 objrow.setStandard_Deviation_of_annual_expenditure(Integer.parseInt(row[9]));
                 objrow.setStandard_Error_of_modelled_annual_expenditure(Integer.parseInt(row[10]));
-
+                rows.add(objrow);
             }
 
         }
@@ -42,6 +55,8 @@ public class CsvParsing {
         catch (EOFException e){
             System.out.println("lettura del file terminata correttamente");
         }
+
+        return rows;
     }
 
 }
@@ -52,6 +67,22 @@ class CsvRow{
     private int EU_Payment_annual,Modelled_annual_expenditure,Standard_Deviation_of_annual_expenditure,Standard_Error_of_modelled_annual_expenditure;
     Programming_Period fields = new Programming_Period();
     Country_NUTS Country_codes = new Country_NUTS();
+
+    @Override
+    public String toString() {
+        return "CsvRow{" +
+                "Country='" + Country + '\'' +
+                ", Fund='" + Fund + '\'' +
+                ", Dash='" + Dash + '\'' +
+                ", Year=" + Year +
+                ", EU_Payment_annual=" + EU_Payment_annual +
+                ", Modelled_annual_expenditure=" + Modelled_annual_expenditure +
+                ", Standard_Deviation_of_annual_expenditure=" + Standard_Deviation_of_annual_expenditure +
+                ", Standard_Error_of_modelled_annual_expenditure=" + Standard_Error_of_modelled_annual_expenditure +
+                ", fields=" + fields +
+                ", Country_codes=" + Country_codes +
+                '}';
+    }
 
     public void setField(String field) throws IOException {
 
@@ -138,11 +169,18 @@ class CsvRow{
         Standard_Error_of_modelled_annual_expenditure = standard_Error_of_modelled_annual_expenditure;
     }
 
-
-
 }
 
 class Programming_Period{
+
+    @Override
+    public String toString() {
+        return "Programming_Period{" +
+                "ProgrammingPeriodStart=" + ProgrammingPeriodStart +
+                ", ProgrammingPeriodEnd=" + ProgrammingPeriodEnd +
+                '}';
+    }
+
     private int ProgrammingPeriodStart, ProgrammingPeriodEnd;
 
     public int getProgrammingPeriodStart() {
@@ -164,6 +202,16 @@ class Programming_Period{
 
 /*Nomenclatura delle Unità territoriali statistiche dell'EU*/
 class Country_NUTS{
+
+    @Override
+    public String toString() {
+        return "Country_NUTS{" +
+                "NUTS1_ID='" + NUTS1_ID + '\'' +
+                ", NUTS2_ID='" + NUTS2_ID + '\'' +
+                ", NUTS2_name='" + NUTS2_name + '\'' +
+                '}';
+    }
+
     private String NUTS1_ID,NUTS2_ID,NUTS2_name;
 
     public String getNUTS1_ID() {

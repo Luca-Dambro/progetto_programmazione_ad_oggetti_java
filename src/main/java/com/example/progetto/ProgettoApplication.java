@@ -1,5 +1,6 @@
 package com.example.progetto;
 
+import com.example.progetto.csv.CsvParsing;
 import com.example.progetto.csv.DisplayRawCSV;
 import org.json.JSONException;
 import org.springframework.boot.SpringApplication;
@@ -18,8 +19,10 @@ public class ProgettoApplication {
             URLextractor extractor = new URLextractor();
             String csv_link = extractor.readUrlFromJSON(link);
             /*classe di test, si visualizza il file csv senza un parsing in classi*/
-            DisplayRawCSV lettore = new DisplayRawCSV();
-            lettore.reader(csv_link);
+           /* DisplayRawCSV lettore = new DisplayRawCSV();
+            lettore.reader(csv_link);*/
+            CsvParsing objparse = new CsvParsing();
+            objparse.display(objparse.parser(csv_link));
             System.out.println("termine programma");
             }
 
