@@ -6,6 +6,9 @@ import java.net.URLConnection;
 
 public class DisplayRawCSV {
 
+
+    private String cvsSplitBy = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
+
     public void reader(String link_csv) throws IOException {
 
         URL url = new URL(link_csv);
@@ -15,9 +18,9 @@ public class DisplayRawCSV {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream())))
         {
             FetchCsvData GetDataRow=new FetchCsvData();
-            String[] header=GetDataRow.getFirstLine(br);
+            String[] header=GetDataRow.getFirstLine(br,cvsSplitBy);
             while ((line = GetDataRow.getLine(br)) != null) {
-                String[] row = GetDataRow.splitLine(line);
+                String[] row = GetDataRow.splitLine(line,cvsSplitBy);
                 for(int i=0; i<row.length; i++) {
 
                     System.out.print("--"+header[i]);

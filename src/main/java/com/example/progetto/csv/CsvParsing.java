@@ -3,9 +3,12 @@ package com.example.progetto.csv;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
-import java.time.Year;
+import java.util.ArrayList;
 
 public class CsvParsing {
+
+     public String cvsSplitByStd = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
+
 
     public void parser(String link_csv) throws IOException {
 
@@ -15,13 +18,21 @@ public class CsvParsing {
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream())))
         {
-            CsvRow csvrow = new CsvRow();
             FetchCsvData GetDataRow=new FetchCsvData();
+            ArrayList<String> rows= new ArrayList<String>();
             while ((line = GetDataRow.getLine(br)) != null) {
-                String[] row = GetDataRow.splitLine(line);
-                for(int i=0; i<row.length; i++) {
+                CsvRow objrow = new CsvRow();
+                String[] row = GetDataRow.splitLine(line,cvsSplitByStd);
+                objrow.setCountry(row[0]);
+                objrow.setCountry_codes(row[1],row[2],row[3]);
+                objrow.setFund(row[4]);
+                objrow.setYear(Integer.parseInt(row[5]));
+                objrow.setField(row[6]);
+                objrow.setEU_Payment_annual(Integer.parseInt(row[7]));
+                objrow.setModelled_annual_expenditure(Integer.parseInt(row[8]));
+                objrow.setStandard_Deviation_of_annual_expenditure(Integer.parseInt(row[9]));
+                objrow.setStandard_Error_of_modelled_annual_expenditure(Integer.parseInt(row[10]));
 
-                }
             }
 
         }
@@ -36,11 +47,39 @@ public class CsvParsing {
 }
 
 class CsvRow{
-    private String Country,Fund;
-    private Year Year;
+    private String Country,Fund,Dash="-";
+    private int Year;
     private int EU_Payment_annual,Modelled_annual_expenditure,Standard_Deviation_of_annual_expenditure,Standard_Error_of_modelled_annual_expenditure;
-    Programming_Period field = new Programming_Period();
+    Programming_Period fields = new Programming_Period();
     Country_NUTS Country_codes = new Country_NUTS();
+
+    public void setField(String field) throws IOException {
+
+        FetchCsvData fetch = new FetchCsvData();
+        String []stringvalues=new String[2];
+        stringvalues=(fetch.splitLine(field,Dash));
+        int[] yearvalues =new int[stringvalues.length];
+        for(int i=0; i<yearvalues.length;i++)
+        {
+           yearvalues[i]=Integer.parseInt(stringvalues[i]) ;
+        }
+        fields.setProgrammingPeriodStart(yearvalues[0]);
+        fields.setProgrammingPeriodEnd(yearvalues[1]);
+    }
+
+    public Programming_Period getFields() {
+        return fields;
+    }
+
+    public void setCountry_codes(String NUTS1_ID, String NUTS2_ID, String NUTS2_name) {
+        Country_codes.setNUTS1_ID(NUTS1_ID);
+        Country_codes.setNUTS2_ID(NUTS2_ID);
+        Country_codes.setNUTS2_name(NUTS2_name);
+    }
+
+    public Country_NUTS getCountry_codes() {
+        return Country_codes;
+    }
 
     public String getCountry(){
         return Country;
@@ -58,11 +97,11 @@ class CsvRow{
         Fund = fund;
     }
 
-    public Year getYear(){
+    public int getYear(){
         return Year;
     }
 
-    public void setYear(java.time.Year year) {
+    public void setYear(int year) {
         Year = year;
     }
 
@@ -98,32 +137,34 @@ class CsvRow{
     public void setStandard_Error_of_modelled_annual_expenditure(int standard_Error_of_modelled_annual_expenditure) {
         Standard_Error_of_modelled_annual_expenditure = standard_Error_of_modelled_annual_expenditure;
     }
-    
+
+
+
 }
 
 class Programming_Period{
-    private Year ProgrammingPeriodStart, ProgrammingPeriodEnd;
+    private int ProgrammingPeriodStart, ProgrammingPeriodEnd;
 
-    public Year getProgrammingPeriodStart() {
+    public int getProgrammingPeriodStart() {
         return ProgrammingPeriodStart;
     }
 
-    public void setProgrammingPeriodStart(Year programmingPeriodStart) {
+    public void setProgrammingPeriodStart(int programmingPeriodStart) {
         ProgrammingPeriodStart = programmingPeriodStart;
     }
 
-    public Year getProgrammingPeriodEnd() {
+    public int getProgrammingPeriodEnd() {
         return ProgrammingPeriodEnd;
     }
 
-    public void setProgrammingPeriodEnd(Year programmingPeriodEnd) {
+    public void setProgrammingPeriodEnd(int programmingPeriodEnd) {
         ProgrammingPeriodEnd = programmingPeriodEnd;
     }
 }
 
 /*Nomenclatura delle Unità territoriali statistiche dell'EU*/
 class Country_NUTS{
-    private String NUTS1_ID,NUTS2_ID,NUTS1_name;
+    private String NUTS1_ID,NUTS2_ID,NUTS2_name;
 
     public String getNUTS1_ID() {
         return NUTS1_ID;
@@ -141,11 +182,11 @@ class Country_NUTS{
         this.NUTS2_ID = NUTS2_ID;
     }
 
-    public String getNUTS1_name() {
-        return NUTS1_name;
+    public String getNUTS2_name() {
+        return NUTS2_name;
     }
 
-    public void setNUTS1_name(String NUTS1_name) {
-        this.NUTS1_name = NUTS1_name;
+    public void setNUTS2_name(String NUTS2_name) {
+        this.NUTS2_name = NUTS2_name;
     }
 }
