@@ -1,10 +1,10 @@
-package com.example.progetto;
+package com.example.progetto.csv;
 
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
 
-public class FetchCsvData {
+ class FetchCsvData {
 
     private String cvsSplitBy = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
 
