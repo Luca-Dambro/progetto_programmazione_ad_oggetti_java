@@ -23,21 +23,15 @@ public class URLextractor {
         HttpURLConnection httpcon = (HttpURLConnection) new URL(url).openConnection();
         httpcon.addRequestProperty("User-Agent", "Mozilla/5.0");
         InputStream is = httpcon.getInputStream();
-        try
+        try(BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8"))))
         {
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             String jsonText = readAll(rd);
             JSONObject json = new JSONObject(jsonText);
             Csvlink linking = new Csvlink(json);
             return linking.getlink();
         }
-        finally
-        {
-            is.close();
-        }
     }
 }
-
 
 class Csvlink {
     private String link;
