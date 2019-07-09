@@ -23,6 +23,7 @@ public class CsvParsing {
         URLConnection connection = url.openConnection();
         String line = "";
         FetchCsvData GetDataRow=new FetchCsvData();
+        /*todo: costruttori stile mancini*/
         CsvRow objrow = new CsvRow();
         int count=0;
         try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream())))
@@ -67,6 +68,10 @@ class CsvRow{
     private int EU_Payment_annual,Modelled_annual_expenditure,Standard_Deviation_of_annual_expenditure,Standard_Error_of_modelled_annual_expenditure;
     Programming_Period fields = new Programming_Period();
     Country_NUTS Country_codes = new Country_NUTS();
+/*todo:modifiche mancini*/
+    /*public CsvRow(int Year){
+        this.Year = Year;
+    }*/
 
     @Override
     public String toString() {
