@@ -30,7 +30,7 @@ public class ProgettoApplication {
             System.out.println("JSONException -> " + e);
         }
 
-        /*continuare qua*/
+    /*TODO:  CONTINUARE QUA!*/
 
     }
 
