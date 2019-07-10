@@ -12,12 +12,16 @@ import java.io.IOException;
 public class ProgettoApplication {
 
     public static void main(String[] args) throws IOException, JSONException {
+
         SpringApplication.run(ProgettoApplication.class, args);
         String link = "http://data.europa.eu/euodp/data/api/3/action/package_show?id=eu-cohesion-policy-historic-eu-payments-regionalised-and-modelled";
+
         /*si estrae dal file JSON fornito il link al fine CSV più corposo*/
         try {
-            URLextractor extractor = new URLextractor();
+            GetCSVfromJSON extractor = new GetCSVfromJSON();
             String csv_link = extractor.readUrlFromJSON(link);
+            extractor.download(csv_link);
+
             /*classe di test, si visualizza il file csv senza un parsing in classi*/
            /* DisplayRawCSV lettore = new DisplayRawCSV();
             lettore.reader(csv_link);*/
@@ -31,6 +35,9 @@ public class ProgettoApplication {
             }
         catch (JSONException e) {
             System.out.println("JSONException -> " + e);
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
 
     /*TODO:  CONTINUARE QUA!*/
