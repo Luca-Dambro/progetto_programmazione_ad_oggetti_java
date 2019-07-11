@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class CsvActions
+    /*TODO: cancella questa riga di todo*/
 {
     private String cvsSplitBy = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
     private Path path= Paths.get(GetCSVfromJSON.fileName);
