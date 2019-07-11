@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 
-public class MyRestController {
+public class EUfundController {
     @GetMapping ("/prova")
     public ProvaClass myMethod(@RequestParam(name="parametro1", defaultValue="DEFAULT!") String parametro1) {
 
