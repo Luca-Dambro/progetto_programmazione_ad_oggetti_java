@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 public class GetCSVfromJSON {
 
     private String link;
-    private String fileName="Dataset";
+    public static final String fileName="Dataset";
 
     private static String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
@@ -48,7 +48,6 @@ public class GetCSVfromJSON {
 
     void download(String url) throws Exception {
         Path path= Paths.get(fileName);
-        path.toFile();
         try (InputStream in = URI.create(url).toURL().openStream()) {
             if((path.toFile()).isFile())
             {
