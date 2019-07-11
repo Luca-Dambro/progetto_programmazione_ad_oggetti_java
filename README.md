@@ -1,2 +1,4 @@
-# progetto_programmazione_ad_oggetti_java
+# PROGETTO
+Programmazione ad oggetti
+
 Specifiche di progetto: http://s3.amazonaws.com/vrai.univpm/SpecificheGruppoRev2.pdf
