@@ -1,22 +1,22 @@
 package com.example.progetto.controller;
 
 import com.example.progetto.model.ProvaClass;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import service.EUfundService;
+import java.util.Vector;
 
 
 @RestController
 
 public class EUfundController {
-    @GetMapping ("/prova")
-    public ProvaClass myMethod(@RequestParam(name="parametro1", defaultValue="DEFAULT!") String parametro1) {
+    /*@Autowired*/
+    public EUfundService EufundService;
 
-        return new ProvaClass("Michele", "Zurlo");
-
+    @GetMapping("/alldataset")
+    public Vector<EUfund> retrieveEufunds() {
+        return EufundService.getEufunds();
     }
 
-    @PostMapping("/prova")
-    public ProvaClass myMethod2(@RequestBody ProvaClass body) {
-        return body;
-    }
 
 }
