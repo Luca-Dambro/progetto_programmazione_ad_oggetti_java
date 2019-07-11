@@ -110,9 +110,6 @@ import java.io.IOException;
 
 
         public String toString() {
-            CsvUtilities fetch = new CsvUtilities();
-
-
             return "CsvRow" +
                     "{" +
                     "Country='" + Country + '\'' +
