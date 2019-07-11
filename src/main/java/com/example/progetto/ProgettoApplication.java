@@ -12,9 +12,6 @@ public class ProgettoApplication {
 
     public static void main(String[] args) throws IOException, JSONException {
 
-        SpringApplication.run(ProgettoApplication.class, args);
-
-
 
         String link = "http://data.europa.eu/euodp/data/api/3/action/package_show?id=eu-cohesion-policy-historic-eu-payments-regionalised-and-modelled";
 
@@ -37,5 +34,6 @@ public class ProgettoApplication {
         catch (Exception e){
             e.printStackTrace();
         }
+        SpringApplication.run(ProgettoApplication.class, args);
     }
 }
