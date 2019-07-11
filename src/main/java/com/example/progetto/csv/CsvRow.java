@@ -113,7 +113,8 @@ import java.io.IOException;
             CsvUtilities fetch = new CsvUtilities();
 
 
-            return "CsvRow{" +
+            return "CsvRow" +
+                    "{" +
                     "Country='" + Country + '\'' +
                     ", Fund='" + Fund + '\'' +
                     ", Year=" + Year +

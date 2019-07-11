@@ -47,6 +47,17 @@ class CsvUtilities {
             throw new IOException("file endend too early");
         }
 
+    void DiscardFirstLine() throws IOException {
+
+        if ((line = br.readLine()) != null)
+        {
+            System.out.println("riga di intestazione scartata correttamente");
+            flag=true;
+        }
+        throw new IOException("file endend too early");
+    }
+
+
      String[] splitLine(String line, String cvsSplitBy) throws IOException
     {
         String[] row = line.split(cvsSplitBy);
@@ -55,6 +66,7 @@ class CsvUtilities {
 
       void print(String[] rows,String[] headers){
 
+          String title="Showing Annual EU budget payments made by fund to a NUTS-2 region (2013 NUTS classification)";
          for(int i=0; i<rows.length; i++)
          {
              System.out.print("--"+headers[i]);
@@ -65,6 +77,7 @@ class CsvUtilities {
 
      public void print(ArrayList<CsvRow> array) {
 
+         String title="Showing Annual EU budget payments made by fund to a NUTS-2 region (2013 NUTS classification)";
          for (CsvRow c : array) {
 
              System.out.println(c);

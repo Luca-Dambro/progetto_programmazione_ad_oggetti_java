@@ -56,7 +56,7 @@ public class CsvActions
          void ParserLogic() throws IOException {
             try (BufferedReader br = new BufferedReader(new FileReader(path.toFile()))) {
                 CsvUtilities tools = new CsvUtilities(br);
-                String[] header = tools.getFirstLine(cvsSplitBy);
+                tools.DiscardFirstLine();
                 CsvRow objrow = new CsvRow();
 
                 while ((currentLine = tools.getLine()) != null) {
