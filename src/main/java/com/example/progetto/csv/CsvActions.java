@@ -1,13 +1,13 @@
 package com.example.progetto.csv;
-import com.example.progetto.GetCSVfromJSON;
 
+import com.example.progetto.GetCSVfromJSON;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class CsvActions
-    /*TODO: cancella questa riga di todo*/
+
 {
     private String cvsSplitBy = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
     private Path path= Paths.get(GetCSVfromJSON.fileName);
