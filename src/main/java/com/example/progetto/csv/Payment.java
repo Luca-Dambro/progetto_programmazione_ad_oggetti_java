@@ -2,19 +2,22 @@ package com.example.progetto.csv;
 
 import java.io.IOException;
 
- class CsvRow
+ public class Payment
     {
-        private String Country,Fund,Dash="-";
+        private String Country;
+        private Country_NUTS Country_codes = new Country_NUTS();
+        private String Fund;
         private int Year;
-        private int EU_Payment_annual,Modelled_annual_expenditure,Standard_Deviation_of_annual_expenditure,Standard_Error_of_modelled_annual_expenditure;
         Programming_Period Period = new Programming_Period();
-        Country_NUTS Country_codes = new Country_NUTS();
+        private int EU_Payment_annual,Modelled_annual_expenditure,Standard_Deviation_of_annual_expenditure,Standard_Error_of_modelled_annual_expenditure;
+
+
 
         public void setPeriod(String period) throws IOException {
 
             CsvUtilities fetch = new CsvUtilities();
             String []stringvalues=new String[2];
-            stringvalues=(fetch.splitLine(period,Dash));
+            stringvalues=(fetch.splitLine(period,"-"));
             int[] yearvalues =new int[stringvalues.length];
             for(int i=0; i<yearvalues.length;i++)
             {
@@ -110,7 +113,7 @@ import java.io.IOException;
 
 
         public String toString() {
-            return "CsvRow" +
+            return "Payment" +
                     "{" +
                     "Country='" + Country + '\'' +
                     ", Fund='" + Fund + '\'' +
