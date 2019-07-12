@@ -55,7 +55,7 @@ public class CsvParser
             CsvUtilities tools = new CsvUtilities();
             tools.print(payments,metadata);
         }
-        throw new IllegalStateException("you need to parse the csv first!");
+        else{throw new IllegalStateException("you need to parse the csv first!");}
     }
 
 
@@ -76,9 +76,6 @@ public class CsvParser
                         e.printStackTrace();
                     }
                 }
-                /*debug*/
-                tools.print(payments,metadata);
-                /*end*/
                 final String[] dataNames = {"String", //0-country
                                             "String", //1-nuts1-id
                                             "String", //2-nuts2-id
@@ -94,15 +91,17 @@ public class CsvParser
 
                 while ((currentLine = tools.getLine()) != null) {
                     String[] row = tools.splitLine(currentLine, cvsSplitBy);
+                    Payment payment_record = new Payment();
                     for(int j=0; j<metadata.size(); j++)//size metadata è 11, di cui period è un'oggetto
                     {
                         Method conversionMethod = Conversions.class.getMethod("conv" + dataNames[j], String.class);
                         Method setterMethod = payment.getMethod("set" + ((metadata.get(j)).getPaymentFieldName()),
                                 Class.forName(((metadata.get(j)).getFieldType())));
-                        setterMethod.invoke(payment_obj,conversionMethod.invoke(Conversions.class, row[j]));
+                        setterMethod.invoke(payment_record,conversionMethod.invoke(Conversions.class, row[j]));
 
                     }
-                    payments.add(payment_obj);
+                    payments.add(payment_record);
+
                 }
             }
             catch (FileNotFoundException e) {//e se qualcuno cancella il file durante il run sulla stufa?
