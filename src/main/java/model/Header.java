@@ -1,4 +1,4 @@
-package com.example.progetto.csv;
+package model;
 
 public class Header {
     private String PaymentFieldName;

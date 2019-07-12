@@ -1,9 +1,11 @@
 package com.example.progetto.csv;
 
+import model.Header;
+import model.Payment;
+
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Vector;
 
 class CsvUtilities {
@@ -54,18 +56,15 @@ class CsvUtilities {
         return row;
     }
 
-    void print(Vector<Payment> array, Vector<Header> metadata) {
+    void print(Vector<Payment> payments, Vector<Header> metadata) {
 
          final String title="Showing Annual EU budget payments made by fund to a NUTS-2 region (2013 NUTS classification)";
-
+         System.out.println(title);
         for (Header m : metadata) {
             System.out.println(m);
-
         }
-
-         for (Payment p : array) {
+         for (Payment p : payments) {
              System.out.println(p);
-            break;
          }
      }
 
