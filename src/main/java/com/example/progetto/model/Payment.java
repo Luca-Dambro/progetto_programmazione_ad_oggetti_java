@@ -1,6 +1,4 @@
-package model;
-
-import java.io.IOException;
+package com.example.progetto.model;
 
 public class Payment {
     private String  Country,

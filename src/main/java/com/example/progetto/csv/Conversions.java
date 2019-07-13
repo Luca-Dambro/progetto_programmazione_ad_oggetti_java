@@ -1,6 +1,6 @@
 package com.example.progetto.csv;
 
-import model.Programming_Period;
+import com.example.progetto.model.Programming_Period;
 
 class Conversions {
       public static Integer convInteger(String s) {

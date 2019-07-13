@@ -1,11 +1,11 @@
-package controller;
+package com.example.progetto.controller;
 
-import model.Header;
-import model.Payment;
+import com.example.progetto.model.Header;
+import com.example.progetto.model.Payment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import service.PaymentService;
+import com.example.progetto.service.PaymentService;
 
 import java.util.Vector;
 
@@ -15,7 +15,7 @@ public class PaymentController {
     private PaymentService paymentService;
 
 
-    @GetMapping("/alldataset")
+    @GetMapping("/wholedataset")
     public Vector<Payment> retrievePayments() {
         return paymentService.getPayments();
     }

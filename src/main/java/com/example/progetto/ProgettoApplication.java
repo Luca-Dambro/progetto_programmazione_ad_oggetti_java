@@ -1,26 +1,23 @@
 package com.example.progetto;
 
 import com.example.progetto.csv.CsvParser;
-import model.Header;
-import model.Payment;
+import com.example.progetto.model.Header;
+import com.example.progetto.model.Payment;
 import org.json.JSONException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import service.PaymentService;
+import com.example.progetto.service.PaymentService;
 
 
 import java.io.IOException;
 import java.util.Vector;
 
-
 @SpringBootApplication
-
+//@SpringBootApplication(scanBasePackages={"com.example.progetto", "com.example.progetto.service", "com.example.progetto.model", "com.example.progetto.controller"})
 
 public class ProgettoApplication {
 
         public static void main(String[] args) throws IOException, JSONException {
-
-        SpringApplication.run(ProgettoApplication.class, args);
 
         Vector<Payment> payments = new Vector<Payment>();
         Vector<Header> metadata = new Vector<Header>();
@@ -36,8 +33,12 @@ public class ProgettoApplication {
 
             CsvParser action = new CsvParser(payments,metadata);
             action.executeParse();
-            action.displayParse();
+            /*action.displayParse();*/
+            PaymentService.setPayments(payments);
+            PaymentService.setHeader(metadata);
+
             System.out.println("termine programma");
+
             }
         catch (IllegalStateException e){
             System.out.println("IllegalStateException -> " + e);
@@ -52,10 +53,8 @@ public class ProgettoApplication {
         catch (Exception e){
             e.printStackTrace();
         }
-
-            PaymentService.setPayments(payments);
-            PaymentService.setHeader(metadata);
-
+            SpringApplication.run(ProgettoApplication.class, args);
+            System.out.println("Avvio programma completato. Accedere ai dati e filtri tramite localhost sulla porta 8080");
     }
 
 }

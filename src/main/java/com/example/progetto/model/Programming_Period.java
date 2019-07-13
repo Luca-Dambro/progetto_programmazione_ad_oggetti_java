@@ -1,4 +1,4 @@
-package model;
+package com.example.progetto.model;
 
 public class Programming_Period {
 

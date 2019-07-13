@@ -1,4 +1,4 @@
-package model;
+package com.example.progetto.model;
 
 public class Header {
     private String PaymentFieldName;

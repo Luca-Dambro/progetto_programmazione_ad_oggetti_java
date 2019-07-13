@@ -1,8 +1,8 @@
 package com.example.progetto.csv;
 
 import com.example.progetto.GetCSVfromJSON;
-import model.Header;
-import model.Payment;
+import com.example.progetto.model.Header;
+import com.example.progetto.model.Payment;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -23,6 +23,7 @@ public class CsvParser
     /*costructor*/
 
     public CsvParser(Vector<Payment> payments, Vector<Header> metadata){
+        super();
         this.payments=payments;
         this.metadata=metadata;
     }
@@ -62,6 +63,7 @@ public class CsvParser
     private void ParserLogic() throws IOException {
 
         try (BufferedReader br = new BufferedReader(new FileReader(path.toFile()))) {
+            System.out.println("lettura del file iniziata");
             CsvUtilities tools = new CsvUtilities(br);
             String[] header = tools.getFirstLine(cvsSplitBy);
             Payment payment_obj = new Payment();

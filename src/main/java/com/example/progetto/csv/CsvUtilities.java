@@ -1,7 +1,7 @@
 package com.example.progetto.csv;
 
-import model.Header;
-import model.Payment;
+import com.example.progetto.model.Header;
+import com.example.progetto.model.Payment;
 
 import java.io.BufferedReader;
 import java.io.EOFException;

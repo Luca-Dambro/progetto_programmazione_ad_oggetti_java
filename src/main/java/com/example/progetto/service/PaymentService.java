@@ -1,13 +1,13 @@
-package service;
+package com.example.progetto.service;
 
 import java.util.*;
 
-import model.Header;
-import model.Payment;
-import org.springframework.stereotype.Component;
+import com.example.progetto.model.Header;
+import com.example.progetto.model.Payment;
+import org.springframework.stereotype.Service;
 
 
-@Component
+@Service
 public class PaymentService {
     private static Vector<Payment> payments;
     private static Vector<Header> metadata;
