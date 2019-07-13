@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.progetto.service.PaymentService;
 
 import java.util.Vector;
-
+//TODO implementare i  filtri!
 @RestController
 public class PaymentController {
     @Autowired
