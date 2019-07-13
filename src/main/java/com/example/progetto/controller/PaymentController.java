@@ -1,9 +1,11 @@
 package com.example.progetto.controller;
 
 import com.example.progetto.model.Header;
+import com.example.progetto.model.NumberStats;
 import com.example.progetto.model.Payment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.progetto.service.PaymentService;
 
@@ -26,3 +28,8 @@ public class PaymentController {
         return paymentService.getHeader();
     }
 }
+
+    @GetMapping("/stats/{fieldName}")
+    public NumberStats stats(@PathVariable String fieldName) {
+        return PaymentService.stats(fieldName, PaymentService.getPayments());
+    }
