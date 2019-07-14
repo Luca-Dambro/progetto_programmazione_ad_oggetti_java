@@ -16,20 +16,19 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
-
     @GetMapping("/wholedataset")
     public Vector<Payment> retrievePayments() {
         return paymentService.getPayments();
     }
 
-
     @GetMapping("/showmetadata")
     public Vector<Header> retrieveHeader() {
         return paymentService.getHeader();
     }
-}
 
     @GetMapping("/stats/{fieldName}")
     public NumberStats stats(@PathVariable String fieldName) {
-        return PaymentService.stats(fieldName, PaymentService.getPayments());
+        return paymentService.stats(fieldName, paymentService.getPayments());
     }
+
+}

@@ -33,7 +33,6 @@ public class PaymentService {
     public static void setHeader(Vector<Header> metadata) {
         PaymentService.metadata = metadata;
     }
-}
 
     public NumberStats stats(String fieldName, Vector<Payment> sample) {
         Method m = null;
@@ -71,9 +70,7 @@ public class PaymentService {
         } catch (ClassCastException e) {
             System.out.println("String cannot be cast to class Double");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "String cannot be cast to class Double");
-        }
-
-        catch (NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             System.out.println("The method get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1)
                     + " cannot be found");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The method get"
@@ -85,3 +82,5 @@ public class PaymentService {
         NumberStats stats = new NumberStats(avg, min, max, std, sum);
         return stats;
     }
+
+}
