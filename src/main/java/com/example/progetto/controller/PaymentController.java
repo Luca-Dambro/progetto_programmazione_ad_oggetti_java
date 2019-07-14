@@ -1,11 +1,12 @@
 package com.example.progetto.controller;
 
 import com.example.progetto.model.Header;
-import com.example.progetto.model.NumberStats;
+import com.example.progetto.model.DataStatistics;
 import com.example.progetto.model.Payment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.progetto.service.PaymentService;
 
@@ -27,14 +28,14 @@ public class PaymentController {
     }
 
     @GetMapping("/stats/{fieldName}")
-    public NumberStats stats(@PathVariable String fieldName) {
+    public DataStatistics stats(@PathVariable String fieldName) {
         return paymentService.stats(fieldName, paymentService.getPayments());
     }
-/*
-    @GetMapping("/count/{fieldName}")
+
+    /*@GetMapping("/count/{fieldName}")
     public String count(@PathVariable String fieldName, @RequestParam(value = "value") String value) {
-        Vector<Pharmacy> pharmacies = pharmacyService.getPharmacies();
+        Vector<Payment> payments = paymentService.getPayments();
         FilterParameters filterParam = new FilterParameters(fieldName, "==", value);
-        return "count : " + pharmacyService.filter(pharmacies, filterParam).size();
+        return "count : " + paymentService.filter(payments, filterParam).size();
     }*/
 }

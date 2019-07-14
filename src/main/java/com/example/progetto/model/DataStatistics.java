@@ -1,14 +1,14 @@
 package com.example.progetto.model;
 
 
-public class NumberStats {
+public class DataStatistics {
     private double avg;
     private int min;
     private int max;
     private double std;
     private long sum;
 
-    public NumberStats(double avg, int min, int max, double std, long sum) {
+    public DataStatistics(double avg, int min, int max, double std, long sum) {
         this.avg = avg;
         this.min = min;
         this.max = max;

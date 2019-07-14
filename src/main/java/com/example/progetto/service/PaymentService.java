@@ -1,17 +1,14 @@
 package com.example.progetto.service;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 import com.example.progetto.model.Header;
-import com.example.progetto.model.NumberStats;
+import com.example.progetto.model.DataStatistics;
 import com.example.progetto.model.Payment;
 import org.springframework.stereotype.Service;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import java.lang.reflect.InvocationTargetException;
-import java.text.SimpleDateFormat;
-import java.lang.reflect.Method;
 import java.lang.Math;
 
 @Service
@@ -35,7 +32,7 @@ public class PaymentService {
         PaymentService.metadata = metadata;
     }
 
-    public NumberStats stats(String fieldName, Vector<Payment> sample) {
+    public DataStatistics stats(String fieldName, Vector<Payment> sample) {
         Method m = null;
         Vector<Integer> store = new Vector<Integer>();
         int count;
@@ -115,7 +112,7 @@ public class PaymentService {
             System.out.println("Security violation");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Security violation");
         }
-        return new NumberStats(avg, min, max, std, sum);
+        return new DataStatistics(avg, min, max, std, sum);
     }
 
 }
