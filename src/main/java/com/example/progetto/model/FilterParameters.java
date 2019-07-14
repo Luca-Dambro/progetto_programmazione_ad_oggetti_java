@@ -1,4 +1,4 @@
-package com.example.progetto.model;
+/*package com.example.progetto.model;
 
 import org.json.simple.JSONObject;
 
@@ -45,8 +45,7 @@ public class FilterParameters {
      * Used by PharmacyService.filter to read the body of the JSON and update the
      * parameters.
      *
-     * @param obj JSON body
-     */
+     *//*
     public void readFields(Object body) {
         if (body instanceof JSONObject) {
             JSONObject jsonObj = (JSONObject) body;
@@ -57,3 +56,4 @@ public class FilterParameters {
     }
 
 }
+*/

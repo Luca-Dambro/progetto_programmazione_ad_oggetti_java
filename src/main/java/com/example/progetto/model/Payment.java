@@ -1,6 +1,7 @@
 package com.example.progetto.model;
 
 public class Payment {
+
     private String  Country,
                     NUTS1_ID,
                     NUTS2_ID,

@@ -3,7 +3,7 @@ package com.example.progetto.service;
 import java.lang.reflect.Method;
 import java.util.*;
 
-import com.example.progetto.model.FilterParameters;
+/*import com.example.progetto.model.FilterParameters;*/
 import com.example.progetto.model.Header;
 import com.example.progetto.model.DataStatistics;
 import com.example.progetto.model.Payment;
@@ -17,6 +17,7 @@ import java.lang.Math;
 public class PaymentService {
     private static Vector<Payment> payments;
     private static Vector<Header> metadata;
+
 
     public Vector<Payment> getPayments() {
         return payments;
@@ -116,16 +117,13 @@ public class PaymentService {
         }
         return new DataStatistics(avg, min, max, std, sum);
     }
-
+/*
     public Vector<Payment> filter(Vector<Payment> payments, FilterParameters param) {
         Vector<Payment> out = new Vector<Payment>();
         Method m = null;
         try {
             for (Payment item : payments) {
-
-                m = item.getClass().getMethod(
-                        "get" + param.getFieldName().substring(0, 1).toUpperCase() + param.getFieldName().substring(1));
-
+                m = item.getClass().getMethod("get" + param.getFieldName());
                 Object paymentValue = m.invoke(item);
 
                 if (PaymentService.check(paymentValue, param.getOperator(), param.getValue()))
@@ -155,5 +153,41 @@ public class PaymentService {
         }
         return out;
     }
+
+
+    public static boolean check(Object paymentValue, String operator, Object inputValue) {
+
+        if (inputValue instanceof Number && paymentValue instanceof Number) {
+            Double doubleInputValue = ((Number) inputValue).doubleValue();
+            Double doublePaymentValue = ((Number) paymentValue).doubleValue();
+
+           switch (operator)
+           {
+               case "==":
+                   return doublePaymentValue.equals(doubleInputValue);
+               case ">":
+                   return doublePaymentValue > doubleInputValue;
+               case ">=":
+                    return doublePaymentValue >= doubleInputValue;
+               case "<":
+                   return doublePaymentValue < doubleInputValue;
+               case "<=":
+                   return doublePaymentValue <= doubleInputValue;
+               default: throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                       "Illegal operator it must be ==, >, >=, <, <=");
+           }
+        }
+        else if (inputValue instanceof String && paymentValue instanceof String) {
+            String inputString = (String) inputValue;
+            String paymentString = (String) paymentValue;
+            if (operator.equals("=="))
+                return inputString.equals(paymentString);
+            else
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Illegal operator, it must be only == ");
+
+
+        }
+        return false;
+    }*/
 
 }

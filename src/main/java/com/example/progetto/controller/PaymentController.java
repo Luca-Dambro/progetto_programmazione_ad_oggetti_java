@@ -1,9 +1,13 @@
 package com.example.progetto.controller;
 
-import com.example.progetto.model.FilterParameters;
+/*import com.example.progetto.model.FilterParameters;*/
 import com.example.progetto.model.Header;
 import com.example.progetto.model.DataStatistics;
 import com.example.progetto.model.Payment;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,10 +37,12 @@ public class PaymentController {
         return paymentService.stats(fieldName, paymentService.getPayments());
     }
 
+/*
     @GetMapping("/count/{fieldName}")
     public String count(@PathVariable String fieldName, @RequestParam(value = "value") String value) {
-        Vector<Payment> payments = paymentService.getPayments();
+        Vector<Payment> pharmacies = paymentService.getPayments();
         FilterParameters filterParam = new FilterParameters(fieldName, "==", value);
-        return "count : " + paymentService.filter(payments, filterParam).size();
-    }
+        String o="count : " + paymentService.filter(pharmacies, filterParam).size();
+        return "ciao";
+    }*/
 }
