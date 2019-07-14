@@ -3,12 +3,12 @@ package com.example.progetto.model;
 
 public class NumberStats {
     private double avg;
-    private double min;
-    private double max;
+    private int min;
+    private int max;
     private double std;
-    private double sum;
+    private long sum;
 
-    public NumberStats(double avg, double min, double max, double std, double sum) {
+    public NumberStats(double avg, int min, int max, double std, long sum) {
         this.avg = avg;
         this.min = min;
         this.max = max;
@@ -28,7 +28,7 @@ public class NumberStats {
         return min;
     }
 
-    public void setMin(double min) {
+    public void setMin(int min) {
         this.min = min;
     }
 
@@ -36,7 +36,7 @@ public class NumberStats {
         return max;
     }
 
-    public void setMax(double max) {
+    public void setMax(int max) {
         this.max = max;
     }
 
@@ -52,7 +52,8 @@ public class NumberStats {
         return sum;
     }
 
-    public void setSum(double sum) {
+    public void setSum(long sum) {
+
         this.sum = sum;
     }
 

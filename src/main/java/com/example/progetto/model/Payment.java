@@ -69,10 +69,10 @@ public class Payment {
     }
 
     /*getter and setter for programming period*/
-    public Integer[] getPeriod() {
-        Integer[] app = new Integer[2];
-        app[0] = Period.getProgrammingPeriodStart();
-        app[1] = Period.getProgrammingPeriodEnd();
+    public String getPeriod() {
+        String app = new String();
+        app+= Period.getProgrammingPeriodStart();
+        app+= Period.getProgrammingPeriodEnd();
         return app;
     }
 

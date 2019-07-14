@@ -2,7 +2,7 @@ package com.example.progetto.model;
 
 public class Programming_Period {
 
-    private Integer ProgrammingPeriodStart,
+    private String ProgrammingPeriodStart,
             ProgrammingPeriodEnd;
     /*toString*/
     @Override
@@ -14,19 +14,19 @@ public class Programming_Period {
     }
 
     /*getter and setter for ProgrammingPeriod members*/
-    public Integer getProgrammingPeriodStart() {
+    public String getProgrammingPeriodStart() {
         return ProgrammingPeriodStart;
     }
 
-    public void setProgrammingPeriodStart(Integer programmingPeriodStart) {
+    public void setProgrammingPeriodStart(String programmingPeriodStart) {
         ProgrammingPeriodStart = programmingPeriodStart;
     }
 
-    public Integer getProgrammingPeriodEnd() {
+    public String getProgrammingPeriodEnd() {
         return ProgrammingPeriodEnd;
     }
 
-    public void setProgrammingPeriodEnd(Integer programmingPeriodEnd) {
+    public void setProgrammingPeriodEnd(String programmingPeriodEnd) {
         ProgrammingPeriodEnd = programmingPeriodEnd;
     }
 }

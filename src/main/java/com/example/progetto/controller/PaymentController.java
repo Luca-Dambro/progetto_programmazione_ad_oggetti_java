@@ -16,7 +16,7 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
-    @GetMapping("/wholedataset")
+    @GetMapping("/showdataset")
     public Vector<Payment> retrievePayments() {
         return paymentService.getPayments();
     }
@@ -30,5 +30,11 @@ public class PaymentController {
     public NumberStats stats(@PathVariable String fieldName) {
         return paymentService.stats(fieldName, paymentService.getPayments());
     }
-
+/*
+    @GetMapping("/count/{fieldName}")
+    public String count(@PathVariable String fieldName, @RequestParam(value = "value") String value) {
+        Vector<Pharmacy> pharmacies = pharmacyService.getPharmacies();
+        FilterParameters filterParam = new FilterParameters(fieldName, "==", value);
+        return "count : " + pharmacyService.filter(pharmacies, filterParam).size();
+    }*/
 }

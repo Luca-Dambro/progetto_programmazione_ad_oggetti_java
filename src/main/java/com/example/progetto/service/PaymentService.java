@@ -1,5 +1,6 @@
 package com.example.progetto.service;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 import com.example.progetto.model.Header;
@@ -36,22 +37,54 @@ public class PaymentService {
 
     public NumberStats stats(String fieldName, Vector<Payment> sample) {
         Method m = null;
-        Vector<Double> store = new Vector<Double>();
+        Vector<Integer> store = new Vector<Integer>();
         int count;
-        double avg = 0, min = 0, max = 0, std = 0, sum = 0;
+        boolean flag=false;
+        int     min = 0,
+                max = 0;
+        long    sum = 0;
+        double  std = 0, avg=0;
+        String fieldNameFinal=new String();
         try {
+            if(fieldName.equals("PeriodStart"))
+            {
+                fieldNameFinal="Period";
+                flag=true;
+            }
+            if(fieldName.equals("PeriodEnd"))
+            {
+                fieldNameFinal="Period";
+            }
             for (Payment item : sample) {
+                m = item.getClass().getMethod("get" + fieldNameFinal);
+                /*todo:verificare se ci vanno numeri negativi con il prof (Modelledannualexpenditure)*/
+                if(fieldNameFinal.equals("Period")){
+                    Object paymentValue = m.invoke(item);
+                    String paymentValuefix = new String();
+                    paymentValuefix = ((String)paymentValue);
+                    String start,end= new String();
+                    start=paymentValuefix.substring(0,4);
+                    end=paymentValuefix.substring(4,8);
+                    int Start= Integer.parseInt(start);
+                    int End = Integer.parseInt(end);
+                    if(flag)
+                        store.add(Start);
+                    else
+                        store.add(End);
 
-                m = item.getClass().getMethod("get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1));
-                Object pharmacyValue = m.invoke(item);
-                double paymentValuedouble = (double) pharmacyValue;
-                if (paymentValuedouble != -360)
-                    store.add((Double) pharmacyValue);
+                }
+                else{
+                    Object paymentValue = m.invoke(item);
+                    int paymentValuefix = Math.abs((int)paymentValue);
+                    store.add(paymentValuefix);
+                }
+
             }
             count = store.size();
             min = store.get(0);
             max = store.get(0);
-            for (Double item : store) {
+            int a=0;
+            for (Integer item : store) {
                 avg += item;
                 if (item < min)
                     min = item;
@@ -59,10 +92,13 @@ public class PaymentService {
                     max = item;
                 sum += item;
                 std += item * item;
+                a++;
             }
-            avg = avg / count;
-            std = Math.sqrt((count * std - sum * sum) / (count * count));
-        } catch (IllegalAccessException e) {
+            avg = avg / count;/*todo:casting da long ad int perche con l'int vado in overflow sulla colonna standard deviation*/
+            std = Math.sqrt((count * std - (int)sum * (int)sum) / (count * count));
+        }
+
+        catch (IllegalAccessException e) {
             System.out.println("The method " + m + " does not have access to the definition of the specified field");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Illegal access method:" + m);
         } catch (InvocationTargetException e) {
@@ -79,8 +115,7 @@ public class PaymentService {
             System.out.println("Security violation");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Security violation");
         }
-        NumberStats stats = new NumberStats(avg, min, max, std, sum);
-        return stats;
+        return new NumberStats(avg, min, max, std, sum);
     }
 
 }
