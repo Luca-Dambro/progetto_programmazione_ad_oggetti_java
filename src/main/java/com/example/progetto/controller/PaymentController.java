@@ -1,5 +1,6 @@
 package com.example.progetto.controller;
 
+import com.example.progetto.model.FilterParameters;
 import com.example.progetto.model.Header;
 import com.example.progetto.model.DataStatistics;
 import com.example.progetto.model.Payment;
@@ -32,10 +33,10 @@ public class PaymentController {
         return paymentService.stats(fieldName, paymentService.getPayments());
     }
 
-    /*@GetMapping("/count/{fieldName}")
+    @GetMapping("/count/{fieldName}")
     public String count(@PathVariable String fieldName, @RequestParam(value = "value") String value) {
         Vector<Payment> payments = paymentService.getPayments();
         FilterParameters filterParam = new FilterParameters(fieldName, "==", value);
         return "count : " + paymentService.filter(payments, filterParam).size();
-    }*/
+    }
 }
