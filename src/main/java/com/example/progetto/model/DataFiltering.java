@@ -3,13 +3,13 @@ package com.example.progetto.model;
 import org.json.simple.JSONObject;
 
 
-public class FilterParameters {
+public class DataFiltering {
 
     private String fieldName;
     private String operator;
     private Object value;
 
-    public FilterParameters(String fieldName, String operator, Object value) {
+    public DataFiltering(String fieldName, String operator, Object value) {
         super();
         this.fieldName = fieldName;
         this.operator = operator;

@@ -73,7 +73,8 @@ public class Payment {
     public String getPeriod() {
         String app = new String();
         app+= Period.getProgrammingPeriodStart();
-        app+= Period.getProgrammingPeriodEnd();
+        app+="-";
+        app+=Period.getProgrammingPeriodEnd();
         return app;
     }
 

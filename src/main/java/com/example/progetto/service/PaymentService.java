@@ -1,11 +1,10 @@
 package com.example.progetto.service;
 
 import java.lang.reflect.Method;
-import java.math.BigDecimal;
 import java.util.*;
 
-/*import com.example.progetto.model.FilterParameters;*/
-import com.example.progetto.model.FilterParameters;
+/*import com.example.progetto.model.DataFiltering;*/
+import com.example.progetto.model.DataFiltering;
 import com.example.progetto.model.Header;
 import com.example.progetto.model.DataStatistics;
 import com.example.progetto.model.Payment;
@@ -127,7 +126,7 @@ public class PaymentService {
         return new DataStatistics(avg, min, max, std, sum);
     }
 
-    public Vector<Payment> filter(Vector<Payment> payments, FilterParameters param) {
+    public Vector<Payment> filter(Vector<Payment> payments, DataFiltering param) {
         Vector<Payment> out = new Vector<Payment>();
         boolean flag=false;
         if(param.getFieldName().equals("PeriodStart"))
@@ -150,14 +149,14 @@ public class PaymentService {
                     paymentValuefix = ((String)paymentValue);
                     String start,end= new String();
                     start=paymentValuefix.substring(0,4);
-                    end=paymentValuefix.substring(4,8);
+                    end=paymentValuefix.substring(5,9);
                     if(flag){
-                        paymentValue=start;
+                        paymentValue=Integer.parseInt(start);
                         if (PaymentService.check(paymentValue, param.getOperator(), param.getValue()))
                             out.add(item);
                     }
                     else{
-                        paymentValue=end;
+                        paymentValue=Integer.parseInt(end);
                         if (PaymentService.check(paymentValue, param.getOperator(), param.getValue()))
                             out.add(item);
                     }
