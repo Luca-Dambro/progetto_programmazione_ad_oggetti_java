@@ -1,6 +1,7 @@
 package com.example.progetto.service;
 
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.*;
 
 /*import com.example.progetto.model.FilterParameters;*/
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.Math;
+
 
 @Service
 public class PaymentService {
@@ -43,7 +45,8 @@ public class PaymentService {
         int     min = 0,
                 max = 0;
         long    sum = 0;
-        double  std = 0, avg = 0;
+        double  std=0,
+                avg = 0;
         String fieldNameFinal=new String();
         try {
             if(fieldName.equals("PeriodStart"))
@@ -51,10 +54,14 @@ public class PaymentService {
                 fieldNameFinal="Period";
                 flag=true;
             }
-            if(fieldName.equals("PeriodEnd"))
+            else if(fieldName.equals("PeriodEnd"))
             {
                 fieldNameFinal="Period";
             }
+            else{
+                fieldNameFinal=fieldName;
+            }
+
             for (Payment item : sample) {
                 m = item.getClass().getMethod("get" + fieldNameFinal);
                 /*todo:verificare se ci vanno numeri negativi con il prof (Modelledannualexpenditure)*/
@@ -83,7 +90,6 @@ public class PaymentService {
             count = store.size();
             min = store.get(0);
             max = store.get(0);
-            int a=0;
             for (Integer item : store) {
                 avg += item;
                 if (item < min)
@@ -91,11 +97,13 @@ public class PaymentService {
                 if (item > max)
                     max = item;
                 sum += item;
-                std += item * item;
-                a++;
             }
-            avg = avg / count;/*todo:casting da long ad int perche con l'int vado in overflow sulla colonna standard deviation*/
-            std = Math.sqrt((count * std - (int)sum * (int)sum) / (count * count));
+            avg = avg / count;
+            for(Integer item:store){
+                std+=(item-avg)*(item-avg);
+            }
+            /*todo:casting da long ad int perche con l'int vado in overflow sulla colonna standard deviation*/
+            std = Math.sqrt(std/(count));
         }
 
         catch (IllegalAccessException e) {
