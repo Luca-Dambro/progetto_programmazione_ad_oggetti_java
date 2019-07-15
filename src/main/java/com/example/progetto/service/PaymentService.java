@@ -129,16 +129,46 @@ public class PaymentService {
 
     public Vector<Payment> filter(Vector<Payment> payments, FilterParameters param) {
         Vector<Payment> out = new Vector<Payment>();
+        boolean flag=false;
+        if(param.getFieldName().equals("PeriodStart"))
+        {
+            param.setFieldName("Period");
+            flag=true;
+        }
+        if(param.getFieldName().equals("PeriodEnd"))
+        {
+            param.setFieldName("Period");
+        }
+
         Method m = null;
         try {
             for (Payment item : payments) {
                 m = item.getClass().getMethod("get" + param.getFieldName());
+                if(param.getFieldName().equals("Period")){
+                    Object paymentValue = m.invoke(item);
+                    String paymentValuefix = new String();
+                    paymentValuefix = ((String)paymentValue);
+                    String start,end= new String();
+                    start=paymentValuefix.substring(0,4);
+                    end=paymentValuefix.substring(4,8);
+                    if(flag){
+                        paymentValue=start;
+                        if (PaymentService.check(paymentValue, param.getOperator(), param.getValue()))
+                            out.add(item);
+                    }
+                    else{
+                        paymentValue=end;
+                        if (PaymentService.check(paymentValue, param.getOperator(), param.getValue()))
+                            out.add(item);
+                    }
+                }
+                else{
                 Object paymentValue = m.invoke(item);
-
-                if (PaymentService.check(paymentValue, param.getOperator(),param.getValue()))
-                    out.add(item);
+                if (PaymentService.check(paymentValue, param.getOperator(), param.getValue()))
+                    out.add(item);}
             }
-        } catch (IllegalAccessException e) {
+        }
+         catch (IllegalAccessException e) {
             System.out.println("The method " + m + " does not have access to the definition of the specified field");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Illegal access method:" + m);
         } catch (IllegalArgumentException e) {
