@@ -16,7 +16,7 @@ import com.example.progetto.service.PaymentService;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Vector;
-//TODO implementare i  filtri!
+
 @RestController
 public class PaymentController {
     @Autowired
