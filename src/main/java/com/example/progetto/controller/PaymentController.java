@@ -40,9 +40,9 @@ public class PaymentController {
 
     @GetMapping("/count/{fieldName}")
     public String count(@PathVariable String fieldName, @RequestParam(value = "value") String value) {
-        Vector<Payment> pharmacies = paymentService.getPayments();
+        Vector<Payment> payments = paymentService.getPayments();
         FilterParameters filterParam = new FilterParameters(fieldName, "==", value);
-       /* String o="count : " + paymentService.filter(pharmacies, filterParam).size();*/
-        return "ciao";
+        String o="count : " + paymentService.filter(payments, filterParam).size();
+        return o;
     }
 }

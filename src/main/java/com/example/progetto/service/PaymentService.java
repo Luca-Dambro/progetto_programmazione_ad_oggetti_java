@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 /*import com.example.progetto.model.FilterParameters;*/
+import com.example.progetto.model.FilterParameters;
 import com.example.progetto.model.Header;
 import com.example.progetto.model.DataStatistics;
 import com.example.progetto.model.Payment;
@@ -126,5 +127,74 @@ public class PaymentService {
         return new DataStatistics(avg, min, max, std, sum);
     }
 
+    public Vector<Payment> filter(Vector<Payment> payments, FilterParameters param) {
+        Vector<Payment> out = new Vector<Payment>();
+        Method m = null;
+        try {
+            for (Payment item : payments) {
+                m = item.getClass().getMethod("get" + param.getFieldName());
+                Object paymentValue = m.invoke(item);
+
+                if (PaymentService.check(paymentValue, param.getOperator(),param.getValue()))
+                    out.add(item);
+            }
+        } catch (IllegalAccessException e) {
+            System.out.println("The method " + m + " does not have access to the definition of the specified field");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Illegal access method:" + m);
+        } catch (IllegalArgumentException e) {
+            System.out.println(
+                    "An illegal or inappropriate argument " + param.getValue() + " has been passed to a method");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Illegal argument");
+        } catch (InvocationTargetException e) {
+            System.out.println();
+        } catch (NullPointerException e) {
+            System.out.println("Incorrect JSON body");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect JSON body");
+        } catch (NoSuchMethodException e) {
+            System.out.println("The method get" + param.getFieldName().substring(0, 1).toUpperCase()
+                    + param.getFieldName().substring(1) + " cannot be found");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "The method get" + param.getFieldName().substring(0, 1).toUpperCase()
+                            + param.getFieldName().substring(1) + " cannot be found");
+        } catch (SecurityException e) {
+            System.out.println("Security violation");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Security violation");
+        }
+        return out;
+    }
+
+    public static boolean check(Object paymentValue, String operator, Object inputValue) {
+
+        if (paymentValue instanceof Number) {
+            Integer InputValue = Integer.valueOf((String) inputValue);
+            Integer PaymentValue =  (Integer)paymentValue;
+
+            switch (operator)
+            {
+                case "==":
+                    return PaymentValue.equals(InputValue);
+                case ">":
+                    return PaymentValue > InputValue;/*todo:verificare compareto*/
+                case ">=":
+                    return PaymentValue >= InputValue;
+                case "<":
+                    return PaymentValue < InputValue;
+                case "<=":
+                    return PaymentValue <= InputValue;
+                default: throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        "Illegal operator it must be ==, >, >=, <, <=");
+            }
+        }
+        else if (inputValue instanceof String && paymentValue instanceof String) {
+            String inputString = (String) inputValue;
+            String paymentString = (String) paymentValue;
+            if (operator.equals("=="))
+                return inputString.equals(paymentString);
+            else
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Illegal operator, it must be only == ");
+
+
+        }
+        return false;}
 
 }
