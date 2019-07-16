@@ -7,8 +7,6 @@ import org.json.JSONException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.example.progetto.service.PaymentService;
-
-
 import java.io.IOException;
 import java.util.Vector;
 
@@ -26,20 +24,16 @@ public class ProgettoApplication {
             /*get the CSV url from given JSON link*/
             GetCSVfromJSON extractor = new GetCSVfromJSON();
             String csv_link = extractor.readUrlFromJSON(link);
-
             /*if not already done, download the CSV file*/
             extractor.download(csv_link);
-
             CsvParser action = new CsvParser(payments,metadata);
             action.executeParse();
             PaymentService.setPayments(payments);
             PaymentService.setHeader(metadata);
-
              }
         catch (IllegalStateException e){
             System.out.println("IllegalStateException -> " + e);
         }
-
         catch (IOException e){
                 System.out.println("IOException -> " + e);
             }
@@ -50,7 +44,6 @@ public class ProgettoApplication {
             e.printStackTrace();
         }
             SpringApplication.run(ProgettoApplication.class, args);
-            System.out.println("Avvio programma completato. Accedere ai dati e filtri tramite localhost sulla porta 8080");
+            System.out.println("Avvio programma completato. Accedere a dati e filtri tramite localhost sulla porta 8080");
     }
-
 }

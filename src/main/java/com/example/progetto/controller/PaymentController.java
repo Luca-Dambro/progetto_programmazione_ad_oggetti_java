@@ -38,8 +38,8 @@ public class PaymentController {
         return paymentService.stats(fieldName, paymentService.getPayments());
     }
 
-    @GetMapping("/count/{fieldName}")
-    public String count(@PathVariable String fieldName, @RequestParam(value = "value") String value) {
+    @GetMapping(value = "/count/{fieldName}", produces = "application/json")
+    public String count(@PathVariable String fieldName, @RequestParam(value = "value",defaultValue="0") String value) {
         Vector<Payment> payments = paymentService.getPayments();
         DataFiltering filterParam = new DataFiltering(fieldName, "==", value);
        return "{\"count\" : " + paymentService.filter(payments, filterParam).size()+"}";
