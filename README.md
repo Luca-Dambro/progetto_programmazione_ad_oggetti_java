@@ -23,13 +23,23 @@ Each line is described by the following attributes:
   - metadata (JSON format) or list of attributes and type;  
   - data (JSON format);  
   - statistics on the data (JSON format) that specifying the attribute on which to perform the computation (data column) such as:
-1) Numbers: avg, min, max, dev std, sum, count  
-2) Strings: Counting of unique elements (for each unique element the number of occurrences is indicated);  
+   1) Numbers: avg, min, max, dev std, sum, count  
+   2) Strings: Counting of unique elements (for each unique element the number of occurrences is indicated);  
 Finally, the restitution foresees the possibility to specify during the request a series of filters on attributes with conditional and logical operators.
 Next, the various requests that can be performed with relevant examples will be listed.
 Examples refer to the query or body of POST (JSON).
 Furthermore, the implementation methods of the statistics and filters are shown and some examples of tests useful for verifying the implemented functions are listed.
 
 WARNING: there are some wrong fields and therefore some data is managed in a dedicated way in order to be corrected. Then follow these manual manipulation operations on the CSV data:
-# inserire qua codice che gestisce regex e rimpiazza con lo zero i campi vuoti!
+```
+public static String convString(String s) {
+         if (s.equals(""))
+             s = "0";
+         return s;
+```
 
+Furthermore, regular expressions are adopted in order to obtain a correct reading of the file. Following is the syntax of the RegEx pattern used:
+
+```
+private String cvsSplitBy = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
+```
