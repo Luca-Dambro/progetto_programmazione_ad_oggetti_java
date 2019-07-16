@@ -1,8 +1,10 @@
 package com.example.progetto.model;
 
 /**
- * This class is used to get the information of every element;
- * this information contain the...
+ * This class is used to abstract the header of the csv (first line), saving
+ * for each column header the name of the field ( that is the name of the attribute of
+ * a row represented by class Payment), the type of the field and the original name
+ * of the heading in the csv.
  */
 
 public class Header {
@@ -10,6 +12,7 @@ public class Header {
     private String CsvFieldName;
     private String FieldType;
 
+    /*constructor*/
     public Header(String paymentFieldName, String csvFieldName, String fieldType) {
         super();
         this.PaymentFieldName = paymentFieldName;
@@ -17,6 +20,7 @@ public class Header {
         this.FieldType = fieldType;
     }
 
+    /*getter and setter*/
     public String getPaymentFieldName() {
         return PaymentFieldName;
     }
@@ -40,6 +44,8 @@ public class Header {
     public void setFieldType(String fieldType) {
         FieldType = fieldType;
     }
+
+    /*toString method as ovvìerride*/
 
     @Override
     public String toString() {
