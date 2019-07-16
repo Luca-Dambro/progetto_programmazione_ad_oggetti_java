@@ -20,7 +20,7 @@ public class CsvParser
     private Vector<Header> metadata = new Vector();
     private boolean flagParse=false;
 
-    /*costructor*/
+    //costructor
 
     public CsvParser(Vector<Payment> payments, Vector<Header> metadata){
         super();
@@ -63,7 +63,7 @@ public class CsvParser
     private void ParserLogic() throws IOException {
 
         try (BufferedReader br = new BufferedReader(new FileReader(path.toFile()))) {
-            System.out.println("lettura del file iniziata");
+            System.out.println("Inizio lettura del CSV");
             CsvUtilities tools = new CsvUtilities(br);
             String[] header = tools.getFirstLine(cvsSplitBy);
             Payment payment_obj = new Payment();
@@ -111,14 +111,14 @@ public class CsvParser
             }
             catch (EOFException e){
                 flagParse=true;
-                System.out.println("lettura del file terminata correttamente");
+                System.out.println("Lettura del file terminata correttamente");
             }
             catch (IllegalStateException e)
             {
-                System.out.println("Non hai letto la prima riga di intestazione del CSV!");
+                System.out.println("ATTENZIONE: non hai letto la prima riga di intestazione del CSV!");
             }
             catch (IOException e){
-                System.out.println("il file csv con contiene alcun valore");
+                System.out.println("ATTENZIONE:: il file csv con contiene alcun valore");
             }
             catch (IllegalAccessException e)
             {

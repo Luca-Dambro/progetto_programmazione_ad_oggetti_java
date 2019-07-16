@@ -1,5 +1,10 @@
 package com.example.progetto.model;
 
+/**
+ * This class is used to get the information of every element;
+ * this information contain the...
+ */
+
 public class Header {
     private String PaymentFieldName;
     private String CsvFieldName;

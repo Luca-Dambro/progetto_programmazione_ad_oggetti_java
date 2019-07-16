@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.util.Vector;
 
 @SpringBootApplication
-//@SpringBootApplication(scanBasePackages={"com.example.progetto", "com.example.progetto.service", "com.example.progetto.model", "com.example.progetto.controller"})
 
 public class ProgettoApplication {
 
@@ -33,13 +32,10 @@ public class ProgettoApplication {
 
             CsvParser action = new CsvParser(payments,metadata);
             action.executeParse();
-            /*action.displayParse();*/
             PaymentService.setPayments(payments);
             PaymentService.setHeader(metadata);
 
-            System.out.println("termine programma");
-
-            }
+             }
         catch (IllegalStateException e){
             System.out.println("IllegalStateException -> " + e);
         }

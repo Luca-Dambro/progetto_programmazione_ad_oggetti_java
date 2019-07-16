@@ -32,6 +32,7 @@ public class PaymentController {
         return paymentService.getHeader();
     }
 
+
     @GetMapping("/stats/{fieldName}")
     public DataStatistics stats(@PathVariable String fieldName) {
         return paymentService.stats(fieldName, paymentService.getPayments());
