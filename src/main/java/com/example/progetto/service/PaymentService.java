@@ -160,8 +160,8 @@ public class PaymentService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Il metodo" + param.getFieldName()+ " non può essere trovato");
         } catch (SecurityException e) {
-            System.out.println("Violazione di sicurezza");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Violazione di sicurezza");
+            System.out.println("Violazione di sicurezza!");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Violazione di sicurezza!");
         }
         return out;
     }
