@@ -11,6 +11,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Vector;
 
+
+/**
+ * This class provides methods and attributes to implement the parsing logic
+ * of our csv, that means that we read the csv and we abstract its information in two
+ * objects, one representing the first line of heading and the second one representing
+ * a generic line of the dataset.{@link Payment}{@link Header}
+ */
 public class CsvParser
 {
     //separator for the split process of a row, uses Regex Expressions.
@@ -28,15 +35,18 @@ public class CsvParser
     //and successfully completed.
     private boolean flagParse=false;
 
-    //costructor
 
+    /**
+     * @param payments vector of type payment {@link com.example.progetto.model.Payment}
+     * @param metadata vector of type metadata {@link com.example.progetto.model.Header}
+     */
     public CsvParser(Vector<Payment> payments, Vector<Header> metadata){
         super();
         this.payments=payments;
         this.metadata=metadata;
     }
 
-    /*getter and setter*/
+    //getter and setter
 
     public Vector<Payment> getPayments() {
         return payments;
@@ -58,20 +68,27 @@ public class CsvParser
         ParserLogic();
     }
 
-    //for the porpouse of this project this method is never used, but we used
-    //it for debug porpouses to print two vectors using the method "print"
-    //defined in the class CsvUtilities.java. If the file has not been parsed yet
-    //and this method is called from main method, it launches an illegalstateExeption.
+    /**
+     *
+     * For the porpouse of this project this method is never used, but we used
+     * it for debug porpouses to print two vectors using the method "print"
+     * defined in the class CsvUtilities.java. If the file has not been parsed yet
+     * and this method is called from main method, it launches an illegalstateExeption.
+     *
+     */
     public void displayParse(){
-        if(flagParse)
-        {
+        if(flagParse) {
             CsvUtilities tools = new CsvUtilities();
             tools.print(payments,metadata);
-        }
-        else{throw new IllegalStateException("you need to parse the csv first!");}
+        } else{throw new IllegalStateException("you need to parse the csv first!");}
     }
 
-    //this method implements the parsing algorthm
+
+    /**
+     * this method implements the parsing algorithm
+     * @throws IOException this covers an I/O error that occurs when reading or writing from
+     *                      a BufferedReader stream and FileReader stream
+     */
     private void ParserLogic() throws IOException {
         //try with resources
         try (BufferedReader br = new BufferedReader(new FileReader(path.toFile()))) {
@@ -92,93 +109,78 @@ public class CsvParser
             //associated at the class variable defined before.
             for( Field field : payment.getDeclaredFields()){
                 try{
-                        //add at the metadata vector a new object of type Header (class
-                        //defined in the model package) using his constructor and passing
-                        //the name of the field,the name of the column in the csv,
-                        // type of the field.
-                        metadata.add(new Header(field.getName(),header[i],field.getType().toString().replace("class ", "")));
-                        i++;
-                    }
-                    catch(ArrayIndexOutOfBoundsException e){
-                        e.printStackTrace();
-                    }
+                    //add at the metadata vector a new object of type Header (class
+                    //defined in the model package) using his constructor and passing
+                    //the name of the field,the name of the column in the csv,
+                    // type of the field.
+                    metadata.add(new Header(field.getName(),header[i],field.getType().toString().replace("class ", "")));
+                    i++;
+                } catch(ArrayIndexOutOfBoundsException e){
+                    e.printStackTrace();
                 }
+            }
             //vector of string that represents types of our data as they are
             //represented as object on the class Payment
-                final String[] dataNames = {"String", //0-country
-                                            "String", //1-nuts1-id
-                                            "String", //2-nuts2-id
-                                            "String", //3-nuts2-name
-                                            "String", //4-fund
-                                            "Integer",//5-year
-                                            "Programming_Period", //6-Programming-period
-                                            "Integer",//7-Eu_payment_annual
-                                            "Integer",//8-Modelled_annual_expenditure
-                                            "Integer",//9-Standard_Deviation_of_annual_expenditure
-                                            "Integer"};//10-Standard_Error_of_modelled_annual_expenditure
+            final String[] dataNames = {"String", //0-country
+                    "String", //1-nuts1-id
+                    "String", //2-nuts2-id
+                    "String", //3-nuts2-name
+                    "String", //4-fund
+                    "Integer",//5-year
+                    "Programming_Period", //6-Programming-period
+                    "Integer",//7-Eu_payment_annual
+                    "Integer",//8-Modelled_annual_expenditure
+                    "Integer",//9-Standard_Deviation_of_annual_expenditure
+                    "Integer"};//10-Standard_Error_of_modelled_annual_expenditure
 
 
-                while ((currentLine = tools.getLine()) != null) {
-                    String[] row = tools.splitLine(currentLine, cvsSplitBy);
-                    Payment payment_record = new Payment();
-                    for(int j=0; j<metadata.size(); j++)
-                    {
-                        //using a reflection to get a method from the object class (representing
-                        //class Conversions) named as the type of the field we need to set using the
-                        //vector of string "dataNames"
-                        Method conversionMethod = Conversions.class.getMethod("conv" + dataNames[j], String.class);
-                        //get a method of the payment class object named as the attribute "PaymentFieldName"
-                        //of the object at index j of the Vector metadata.
-                        Method setterMethod = payment.getMethod("set" + ((metadata.get(j)).getPaymentFieldName()),
-                                Class.forName(((metadata.get(j)).getFieldType())));
-                        //invoke the setterMethod on the object "payment_record" with a string specified
-                        //as a parameter for the method called. This string is the output of the ivoke
-                        //of the method "conversionMethod" called on the object representing the class Conversions.
-                        setterMethod.invoke(payment_record,conversionMethod.invoke(Conversions.class, row[j]));
-
-                    }
-                    payments.add(payment_record);
+            while ((currentLine = tools.getLine()) != null) {
+                String[] row = tools.splitLine(currentLine, cvsSplitBy);
+                Payment payment_record = new Payment();
+                for(int j=0; j<metadata.size(); j++) {
+                    //using a reflection to get a method from the object class (representing
+                    //class Conversions) named as the type of the field we need to set using the
+                    //vector of string "dataNames"
+                    Method conversionMethod = Conversions.class.getMethod("conv" + dataNames[j], String.class);
+                    //get a method of the payment class object named as the attribute "PaymentFieldName"
+                    //of the object at index j of the Vector metadata.
+                    Method setterMethod = payment.getMethod("set" + ((metadata.get(j)).getPaymentFieldName()),
+                            Class.forName(((metadata.get(j)).getFieldType())));
+                    //invoke the setterMethod on the object "payment_record" with a string specified
+                    //as a parameter for the method called. This string is the output of the ivoke
+                    //of the method "conversionMethod" called on the object representing the class Conversions.
+                    setterMethod.invoke(payment_record,conversionMethod.invoke(Conversions.class, row[j]));
 
                 }
-            }
-            catch (FileNotFoundException e) {
-                System.out.println("File Not Found. Check your internet connection.");
-            }
-            catch (EOFException e){
-                //if we get End Of File Exception we've read the csv successfully.
-                flagParse=true;
-                System.out.println("Lettura del file terminata correttamente");
-            }
-            catch (IllegalStateException e)
-            {
-                System.out.println("ATTENZIONE: non hai letto la prima riga di intestazione del CSV!");
-            }
-            catch (IOException e){
-                System.out.println("ATTENZIONE:: il file csv con contiene alcun valore");
-            }
-            catch (IllegalAccessException e)
-            {
-                System.out.println("IllegalAccessException -> " + e);
-                e.printStackTrace();
-            }
-            catch (InvocationTargetException e)
-            {
-                System.out.println("InvocationTargetException -> " + e);
-                e.printStackTrace();
-            }
-            catch (NoSuchMethodException e)
-            {
-                System.out.println("NoSuchMethodException -> " + e);
-                e.printStackTrace();
-            }
-            catch (ClassNotFoundException e)
-            {
-                System.out.println("ClassNotFoundException -> " + e);
-                e.printStackTrace();
-            }
+                payments.add(payment_record);
 
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File Not Found. Check your internet connection.");
+        } catch (EOFException e){
+            //if we get End Of File Exception we've read the csv successfully.
+            flagParse=true;
+            System.out.println("Lettura del file terminata correttamente");
+        } catch (IllegalStateException e) {
+            System.out.println("ATTENZIONE: non hai letto la prima riga di intestazione del CSV!");
+        } catch (IOException e){
+            System.out.println("ATTENZIONE:: il file csv con contiene alcun valore");
+        } catch (IllegalAccessException e) {
+            System.out.println("IllegalAccessException -> " + e);
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            System.out.println("InvocationTargetException -> " + e);
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            System.out.println("NoSuchMethodException -> " + e);
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.out.println("ClassNotFoundException -> " + e);
+            e.printStackTrace();
         }
+
     }
+}
 
 
 

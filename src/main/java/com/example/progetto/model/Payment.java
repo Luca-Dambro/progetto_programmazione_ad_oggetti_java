@@ -1,29 +1,37 @@
 package com.example.progetto.model;
 
+/**
+ * This class is used to abstract a generic line of the csv (except for the first
+ * one). Since we have 11 columns in our dataset, we have 11 properties for our
+ * class representing the name of each field. We chose to represent one property,
+ * "Programming Period" as a class {@link Programming_Period} since it represent
+ * two different information inside, the start and the end of the period.
+ */
 public class Payment {
 
     private String  Country,
-                    NUTS1_ID,
-                    NUTS2_ID,
-                    NUTS2_name,
-                    Fund;
+            NUTS1_ID,
+            NUTS2_ID,
+            NUTS2_name,
+            Fund;
     private Integer Year;
     private Programming_Period Period = new Programming_Period();
     private Integer EU_Payment_annual,
-                    Modelled_annual_expenditure,
-                    Standard_Deviation_of_annual_expenditure,
-                    Standard_Error_of_modelled_annual_expenditure;
+            Modelled_annual_expenditure,
+            Standard_Deviation_of_annual_expenditure,
+            Standard_Error_of_modelled_annual_expenditure;
 
 
-    /*getter and setter for country*/
+    //getter and setter for country
     public String getCountry() {
         return Country;
     }
+
     public void setCountry(String country) {
         Country = country;
     }
 
-    /*getter and setter for nuts1-id*/
+    //getter and setter for nuts1-id
 
     public String getNUTS1_ID() {
         return NUTS1_ID;
@@ -32,7 +40,9 @@ public class Payment {
     public void setNUTS1_ID(String NUTS1_ID) {
         this.NUTS1_ID = NUTS1_ID;
     }
-    /*getter and setter for nuts2-id*/
+
+
+    //getter and setter for nuts2-id
 
     public String getNUTS2_ID() {
         return NUTS2_ID;
@@ -41,7 +51,8 @@ public class Payment {
     public void setNUTS2_ID(String NUTS2_ID) {
         this.NUTS2_ID = NUTS2_ID;
     }
-    /*getter and setter for nuts2-name*/
+
+    //getter and setter for nuts2-name
 
     public String getNUTS2_name() {
         return NUTS2_name;
@@ -50,7 +61,8 @@ public class Payment {
     public void setNUTS2_name(String NUTS2_name) {
         this.NUTS2_name = NUTS2_name;
     }
-    /*getter and setter for fund*/
+
+    //getter and setter for fund
     public String getFund() {
         return Fund;
     }
@@ -59,7 +71,7 @@ public class Payment {
         Fund = fund;
     }
 
-    /*getter and setter for year*/
+    //getter and setter for year
     public Integer getYear() {
         return Year;
     }
@@ -69,7 +81,7 @@ public class Payment {
         Year = year;
     }
 
-    /*getter and setter for programming period*/
+    //getter and setter for programming period
     public String getPeriod() {
         String app = new String();
         app+= Period.getProgrammingPeriodStart();
@@ -82,43 +94,45 @@ public class Payment {
         Period = period;
     }
 
-    /*getter and setter for EU_Payment_annual*/
+    //getter and setter for EU_Payment_annual
     public Integer getEU_Payment_annual() {
         return EU_Payment_annual;
     }
+
     public void setEU_Payment_annual(Integer EU_Payment_annual) {
-        /*if (EU_Payment_annual.equals("")) {
-            EU_Payment_annual = "0";
-        }*/
+
         this.EU_Payment_annual = (EU_Payment_annual);
     }
 
 
-    /*getter and setter for Modelled_annual_expenditure*/
+    //getter and setter for Modelled_annual_expenditure
     public Integer getModelled_annual_expenditure() {
         return Modelled_annual_expenditure;
     }
+
     public void setModelled_annual_expenditure(Integer modelled_annual_expenditure) {
         Modelled_annual_expenditure = (modelled_annual_expenditure);
     }
 
-    /*getter and setter for Standard_Deviation_of_annual_expenditure*/
+    //getter and setter for Standard_Deviation_of_annual_expenditure
     public Integer getStandard_Deviation_of_annual_expenditure() {
         return Standard_Deviation_of_annual_expenditure;
     }
+
     public void setStandard_Deviation_of_annual_expenditure(Integer standard_Deviation_of_annual_expenditure) {
         Standard_Deviation_of_annual_expenditure = (standard_Deviation_of_annual_expenditure);
     }
 
-    /*getter and setter for getStandard_Error_of_modelled_annual_expenditure*/
+    //getter and setter for getStandard_Error_of_modelled_annual_expenditure
     public Integer getStandard_Error_of_modelled_annual_expenditure() {
         return Standard_Error_of_modelled_annual_expenditure;
     }
+
     public void setStandard_Error_of_modelled_annual_expenditure(Integer standard_Error_of_modelled_annual_expenditure) {
         Standard_Error_of_modelled_annual_expenditure = (standard_Error_of_modelled_annual_expenditure);
     }
 
-    /*toString*/
+    //toString
 
     @Override
     public String toString() {

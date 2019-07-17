@@ -1,10 +1,11 @@
 package com.example.progetto.model;
 
-//this class encapsulates stats variables returned by routes "stats" and
-//"/filter/stats/" (first one is get request, second one is post request
-//through the filter"
 
-
+/**
+ * This class encapsulates statistics variables returned by routes "statistics" and
+ * "/filter/statistics/" (first one is get request, second one is post request)
+ * through the filter"
+ */
 public class DataStatistics {
     private double avg;
     private int min;
@@ -12,8 +13,13 @@ public class DataStatistics {
     private double std;
     private long sum;
 
-    /*constructor*/
-
+    /**
+     * @param avg
+     * @param min
+     * @param max
+     * @param std
+     * @param sum
+     */
     public DataStatistics(double avg, int min, int max, double std, long sum) {
         this.avg = avg;
         this.min = min;
@@ -21,8 +27,6 @@ public class DataStatistics {
         this.std = std;
         this.sum = sum;
     }
-
-    /*getter and setter*/
 
     public double getAvg() {
         return avg;

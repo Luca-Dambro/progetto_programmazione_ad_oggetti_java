@@ -1,9 +1,14 @@
 package com.example.progetto.model;
 
+/**
+ * This class is used to abstract the a particolar data of a column of a csv
+ * wich encapsulate two information.
+ */
 public class Programming_Period {
 
     private String ProgrammingPeriodStart,
             ProgrammingPeriodEnd;
+
     /*toString*/
     @Override
     public String toString() {
@@ -13,7 +18,7 @@ public class Programming_Period {
                 '}';
     }
 
-    /*getter and setter for ProgrammingPeriod members*/
+    //getter and setter for ProgrammingPeriod members
     public String getProgrammingPeriodStart() {
         return ProgrammingPeriodStart;
     }

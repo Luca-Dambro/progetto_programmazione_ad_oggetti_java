@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Vector;
 
+
 @RestController
 public class PaymentController {
     @Autowired
@@ -33,9 +34,9 @@ public class PaymentController {
     }
 
 
-    @GetMapping("/stats/{fieldName}")
-    public DataStatistics stats(@PathVariable String fieldName) {
-        return paymentService.stats(fieldName, paymentService.getPayments());
+    @GetMapping("/statistics/{fieldName}")
+    public DataStatistics statistics(@PathVariable String fieldName) {
+        return paymentService.statistics(fieldName, paymentService.getPayments());
     }
 
     @GetMapping(value = "/count/{fieldName}", produces = "application/json")

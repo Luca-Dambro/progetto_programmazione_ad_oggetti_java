@@ -10,40 +10,40 @@ import com.example.progetto.service.PaymentService;
 import java.io.IOException;
 import java.util.Vector;
 
+/**
+ * This is the main class of our application
+ */
+
 @SpringBootApplication
 
 public class ProgettoApplication {
 
-        public static void main(String[] args) throws IOException, JSONException {
+    public static void main(String[] args) throws IOException, JSONException {
 
         Vector<Payment> payments = new Vector<Payment>();
         Vector<Header> metadata = new Vector<Header>();
         final String link = "http://data.europa.eu/euodp/data/api/3/action/package_show?id=eu-cohesion-policy-historic-eu-payments-regionalised-and-modelled";
 
         try {
-            /*get the CSV url from given JSON link*/
+            //get the CSV url from given JSON link
             GetCSVfromJSON extractor = new GetCSVfromJSON();
             String csv_link = extractor.readUrlFromJSON(link);
-            /*if not already done, download the CSV file*/
+            //if not already done, download the CSV file
             extractor.download(csv_link);
             CsvParser action = new CsvParser(payments,metadata);
             action.executeParse();
             PaymentService.setPayments(payments);
             PaymentService.setHeader(metadata);
-             }
-        catch (IllegalStateException e){
+        } catch (IllegalStateException e){
             System.out.println("IllegalStateException -> " + e);
-        }
-        catch (IOException e){
-                System.out.println("IOException -> " + e);
-            }
-        catch (JSONException e) {
+        } catch (IOException e){
+            System.out.println("IOException -> " + e);
+        } catch (JSONException e) {
             System.out.println("JSONException -> " + e);
-        }
-        catch (Exception e){
+        } catch (Exception e){
             e.printStackTrace();
         }
-            SpringApplication.run(ProgettoApplication.class, args);
-            System.out.println("Avvio programma completato. Accedere a dati e filtri tramite localhost sulla porta 8080");
+        SpringApplication.run(ProgettoApplication.class, args);
+        System.out.println("Avvio programma completato. Accedere a dati e filtri tramite localhost sulla porta 8080");
     }
 }

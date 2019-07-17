@@ -37,7 +37,7 @@ public class PaymentService {
         PaymentService.metadata = metadata;
     }
 
-    public DataStatistics stats(String fieldName, Vector<Payment> sample) {
+    public DataStatistics statistics(String fieldName, Vector<Payment> sample) {
         Method m = null;
         Vector<Integer> store = new Vector<Integer>();
         int count;
