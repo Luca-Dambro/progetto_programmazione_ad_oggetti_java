@@ -18,7 +18,7 @@ public class PaymentService {
     private static Vector<Payment> payments;
     private static Vector<Header> metadata;
 
-
+    /*getter and setter*/
     public Vector<Payment> getPayments() {
         return payments;
     }
@@ -28,54 +28,53 @@ public class PaymentService {
     }
 
     public Vector<Header> getHeader() {
+
         return metadata;
     }
 
     public static void setHeader(Vector<Header> metadata) {
+
         PaymentService.metadata = metadata;
     }
 
-    public DataStatistics statistics(String fieldName, Vector<Payment> sample) {
+    public DataStatistics statistics(String fieldName, Vector<Payment> sample) throws IllegalStateException
+    {
         Method m = null;
         Vector<Integer> store = new Vector<Integer>();
-        int count;
-        boolean flag=false;
-        int     min = 0,
+        boolean flagStart=false;
+        boolean flagEnd=false;
+        int     count=0,
+                min = 0,
                 max = 0;
         long    sum = 0;
-        double  std=0,
+        double  std = 0,
                 avg = 0;
-        String fieldNameFinal=new String();
+
         try {
-            if(fieldName.equals("PeriodStart"))
-            {
-                fieldNameFinal="Period";
-                flag=true;
-            }
-            else if(fieldName.equals("PeriodEnd"))
-            {
-                fieldNameFinal="Period";
-            }
-            else{
-                fieldNameFinal=fieldName;
+            switch (fieldName){
+                case "PeriodStart":
+                    fieldName=fieldName.replace("PeriodStart","Period");
+                    flagStart=true;
+                    break;
+                case"PeriodEnd":
+                    fieldName=fieldName.replace("PeriodEnd","Period");
+                    flagEnd=true;
+                    break;
             }
 
             for (Payment item : sample) {
-                m = item.getClass().getMethod("get" + fieldNameFinal);
-                if(fieldNameFinal.equals("Period")){
+                m = item.getClass().getMethod("get" + fieldName);
+                if(fieldName.equals("Period")){
                     Object paymentValue = m.invoke(item);
-                    String paymentValuefix = new String();
-                    paymentValuefix = ((String)paymentValue);
-                    String start,end= new String();
-                    start=paymentValuefix.substring(0,4);
-                    end=paymentValuefix.substring(5,9);
-                    int Start= Integer.parseInt(start);
-                    int End = Integer.parseInt(end);
-                    if(flag)
+                    int Start= Integer.parseInt(getStartEnd(paymentValue)[0]);
+                    int End = Integer.parseInt(getStartEnd(paymentValue)[1]);
+                    if(flagStart)
                         store.add(Start);
-                    else
+                    else if(flagEnd)
                         store.add(End);
-
+                    else{
+                        throw new IllegalStateException("Devi specificare PeriodStart o PeriodEnd");
+                    }
                 }
                 else{
                     Object paymentValue = m.invoke(item);
@@ -99,23 +98,20 @@ public class PaymentService {
             for(Integer item:store){
                 std+=(item-avg)*(item-avg);
             }
-            /*todo:casting da long ad int perche con l'int vado in overflow sulla colonna standard deviation*/
             std = Math.sqrt(std/(count));
         }
 
         catch (IllegalAccessException e) {
-            System.out.println("The method " + m + " does not have access to the definition of the specified field");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Illegal access method:" + m);
+            System.out.println("Il metodo " + m + " non ha accesso alla definizione del campo specifico");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "non puoi accedere a questo metodo!:" + m);
         } catch (InvocationTargetException e) {
             System.out.println("InvocationTargetException");
         } catch (ClassCastException e) {
             System.out.println("String cannot be cast to class Double");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "String cannot be cast to class Double");
         } catch (NoSuchMethodException e) {
-            System.out.println("The method get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1)
-                    + " cannot be found");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The method get"
-                    + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1) + " cannot be found");
+            System.out.println("Il metodo" + fieldName + " non esiste");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Il metodo" + fieldName + "non esiste");
         } catch (SecurityException e) {
             System.out.println("Security violation");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Security violation");
@@ -123,43 +119,45 @@ public class PaymentService {
         return new DataStatistics(avg, min, max, std, sum);
     }
 
-    public Vector<Payment> filter(Vector<Payment> payments, DataFiltering param) {
-        Vector<Payment> out = new Vector<Payment>();
-        boolean flag=false;
-        if(param.getFieldName().equals("PeriodStart"))
-        {
-            param.setFieldName("Period");
-            flag=true;
-        }
-        if(param.getFieldName().equals("PeriodEnd"))
-        {
-            param.setFieldName("Period");
-        }
+    public Vector<Payment> filter(Vector<Payment> payments, DataFiltering param) throws IllegalStateException {
 
         Method m = null;
+        Vector<Payment> out = new Vector<Payment>();
+        boolean flagStart=false,
+                flagEnd=false;
+        switch(param.getFieldName()){
+            case "PeriodStart":
+                param.setFieldName("Period");
+                flagStart=true;
+                break;
+            case"PeriodEnd":
+                param.setFieldName("Period");
+                flagEnd=true;
+                break;
+        }
+
         try {
             for (Payment item : payments) {
                 m = item.getClass().getMethod("get" + param.getFieldName());
+                Object paymentValue = m.invoke(item);
                 if(param.getFieldName().equals("Period")){
-                    Object paymentValue = m.invoke(item);
-                    String paymentValuefix = new String();
-                    paymentValuefix = ((String)paymentValue);
-                    String start,end= new String();
-                    start=paymentValuefix.substring(0,4);
-                    end=paymentValuefix.substring(5,9);
-                    if(flag){
-                        paymentValue=Integer.parseInt(start);
+                    int Start= Integer.parseInt(getStartEnd(paymentValue)[0]);
+                    int End = Integer.parseInt(getStartEnd(paymentValue)[1]);
+                    if(flagStart){
+                        paymentValue=Start;
+                        if (PaymentService.check(paymentValue, param.getOperator(), param.getValue()))
+                            out.add(item);
+                    }
+                    else if(flagEnd){
+                        paymentValue=End;
                         if (PaymentService.check(paymentValue, param.getOperator(), param.getValue()))
                             out.add(item);
                     }
                     else{
-                        paymentValue=Integer.parseInt(end);
-                        if (PaymentService.check(paymentValue, param.getOperator(), param.getValue()))
-                            out.add(item);
+                        throw new IllegalStateException("Devi specificare PeriodStart o PeriodEnd");
                     }
                 }
                 else{
-                Object paymentValue = m.invoke(item);
                 if (PaymentService.check(paymentValue, param.getOperator(), param.getValue()))
                     out.add(item);}
             }
@@ -200,7 +198,7 @@ public class PaymentService {
                 case "==":
                     return PaymentValue.equals(InputValue);
                 case ">":
-                    return PaymentValue > InputValue;/*todo:verificare compareto*/
+                    return PaymentValue > InputValue;
                 case ">=":
                     return PaymentValue >= InputValue;
                 case "<":
@@ -221,6 +219,17 @@ public class PaymentService {
 
 
         }
-        return false;}
+        return false;
+    }
+
+        private String[] getStartEnd( Object paymentValue){
+
+        String paymentValueFix=(String)paymentValue;
+        String[] StartEnd = new String[2];
+        StartEnd[0] = paymentValueFix.substring(0,4);
+        StartEnd[1] = paymentValueFix.substring(5,9);
+        return StartEnd;
+
+        }
 
 }

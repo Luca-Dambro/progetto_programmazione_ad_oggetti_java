@@ -42,7 +42,7 @@ public class PaymentController {
     public String count(@PathVariable String fieldName, @RequestParam(value = "value") String value) {
         Vector<Payment> payments = paymentService.getPayments();
         DataFiltering filterParam = new DataFiltering(fieldName, "==", value);
-       return "{\"count\" : " + paymentService.filter(payments, filterParam).size()+"}";
+        return "{\"count\" : " + paymentService.filter(payments, filterParam).size() + "}";
 
     }
 
@@ -53,7 +53,7 @@ public class PaymentController {
         try {
             jsonObject = (JSONObject) JSONValue.parseWithException(param);
         } catch (ParseException e) {
-            System.out.println("Error while parsing JSON" + jsonObject);
+            System.out.println("Errore nel parsing JSON" + jsonObject);
         }
         Vector<Payment> temp = paymentService.getPayments();
         DataFiltering filterParam = new DataFiltering(null, null, null);
@@ -96,9 +96,18 @@ public class PaymentController {
 
         if (!correctRequest) {
             System.out.println("Incorrect JSON body");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect JSON body");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Corpo del messaggio JSON errato");
         }
 
         return temp;
     }
+
+    @PostMapping(value = "/filter/statistics/{fieldName}")
+    public DataStatistics filterStats(@RequestBody String param, @PathVariable String fieldName) {
+        Vector<Payment> sample = new Vector<Payment>();
+        sample = filter(param);
+
+        return paymentService.statistics(fieldName, sample);
+    }
+
 }
