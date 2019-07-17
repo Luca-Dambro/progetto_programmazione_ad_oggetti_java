@@ -2,8 +2,6 @@ package com.example.progetto.service;
 
 import java.lang.reflect.Method;
 import java.util.*;
-
-/*import com.example.progetto.model.DataFiltering;*/
 import com.example.progetto.model.DataFiltering;
 import com.example.progetto.model.Header;
 import com.example.progetto.model.DataStatistics;
@@ -64,14 +62,13 @@ public class PaymentService {
 
             for (Payment item : sample) {
                 m = item.getClass().getMethod("get" + fieldNameFinal);
-                /*todo:verificare se ci vanno numeri negativi con il prof (Modelledannualexpenditure)*/
                 if(fieldNameFinal.equals("Period")){
                     Object paymentValue = m.invoke(item);
                     String paymentValuefix = new String();
                     paymentValuefix = ((String)paymentValue);
                     String start,end= new String();
                     start=paymentValuefix.substring(0,4);
-                    end=paymentValuefix.substring(4,8);
+                    end=paymentValuefix.substring(5,9);
                     int Start= Integer.parseInt(start);
                     int End = Integer.parseInt(end);
                     if(flag)

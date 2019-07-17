@@ -55,7 +55,7 @@ This request return all the data-set.
 ### /showmetadata
 This request return all header of the data-set.
 
-### /stats/{fieldName}
+### /statistics/{fieldName}
 Gives statistics on numbers based on the class  _DataStatistics_:
 
 -   Average

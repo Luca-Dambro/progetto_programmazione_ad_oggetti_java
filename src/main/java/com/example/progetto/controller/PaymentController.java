@@ -1,6 +1,5 @@
 package com.example.progetto.controller;
 
-/*import com.example.progetto.model.DataFiltering;*/
 import com.example.progetto.model.DataFiltering;
 import com.example.progetto.model.Header;
 import com.example.progetto.model.DataStatistics;
@@ -40,7 +39,7 @@ public class PaymentController {
     }
 
     @GetMapping(value = "/count/{fieldName}", produces = "application/json")
-    public String count(@PathVariable String fieldName, @RequestParam(value = "value",defaultValue="0") String value) {
+    public String count(@PathVariable String fieldName, @RequestParam(value = "value") String value) {
         Vector<Payment> payments = paymentService.getPayments();
         DataFiltering filterParam = new DataFiltering(fieldName, "==", value);
        return "{\"count\" : " + paymentService.filter(payments, filterParam).size()+"}";
