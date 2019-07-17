@@ -43,13 +43,8 @@ public class PaymentService {
         Vector<Integer> store = new Vector<Integer>();
         boolean flagStart=false;
         boolean flagEnd=false;
-        int     count=0,
-                min = 0,
-                max = 0;
-        long    sum = 0;
-        double  std = 0,
-                avg = 0;
-
+        Vector<Object> results = new Vector<Object>();;
+        int count =0;
         try {
             switch (fieldName){
                 case "PeriodStart":
@@ -81,42 +76,29 @@ public class PaymentService {
                     int paymentValuefix = Math.abs((int)paymentValue);
                     store.add(paymentValuefix);
                 }
-
             }
             count = store.size();
-            min = store.get(0);
-            max = store.get(0);
-            for (Integer item : store) {
-                avg += item;
-                if (item < min)
-                    min = item;
-                if (item > max)
-                    max = item;
-                sum += item;
-            }
-            avg = avg / count;
-            for(Integer item:store){
-                std+=(item-avg)*(item-avg);
-            }
-            std = Math.sqrt(std/(count));
+
+            results = calculate(count,store);
+
         }
 
         catch (IllegalAccessException e) {
             System.out.println("Il metodo " + m + " non ha accesso alla definizione del campo specifico");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "non puoi accedere a questo metodo!:" + m);
         } catch (InvocationTargetException e) {
-            System.out.println("InvocationTargetException");
+            e.printStackTrace();
         } catch (ClassCastException e) {
-            System.out.println("String cannot be cast to class Double");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "String cannot be cast to class Double");
+            System.out.println("Operazione di casting non consentita");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Operazione di casting non consentita");
         } catch (NoSuchMethodException e) {
-            System.out.println("Il metodo" + fieldName + " non esiste");
+            System.out.println("Il metodo " + fieldName + " non esiste");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Il metodo" + fieldName + "non esiste");
         } catch (SecurityException e) {
-            System.out.println("Security violation");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Security violation");
+            System.out.println("Violazione di sicurezza");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Violazione di sicurezza");
         }
-        return new DataStatistics(avg, min, max, std, sum);
+        return new DataStatistics((double)results.get(0), (int)results.get(1), (int)results.get(2), (double)results.get(3), (long)results.get(4));
     }
 
     public Vector<Payment> filter(Vector<Payment> payments, DataFiltering param) throws IllegalStateException {
@@ -135,7 +117,6 @@ public class PaymentService {
                 flagEnd=true;
                 break;
         }
-
         try {
             for (Payment item : payments) {
                 m = item.getClass().getMethod("get" + param.getFieldName());
@@ -163,26 +144,24 @@ public class PaymentService {
             }
         }
          catch (IllegalAccessException e) {
-            System.out.println("The method " + m + " does not have access to the definition of the specified field");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Illegal access method:" + m);
+            System.out.println("Il metodo " + m + " non ha accesso alla definizione del campo specifico");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "non puoi accedere a questo metodo!:" + m);
         } catch (IllegalArgumentException e) {
             System.out.println(
-                    "An illegal or inappropriate argument " + param.getValue() + " has been passed to a method");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Illegal argument");
+                    "un argomento inaspettato o non conforme " + param.getValue() + " è stato passato al metodo");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "argomento non conforme");
         } catch (InvocationTargetException e) {
-            System.out.println();
+            e.printStackTrace();
         } catch (NullPointerException e) {
-            System.out.println("Incorrect JSON body");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect JSON body");
+            System.out.println("Corpo del messaggio JSON incorretto");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Corpo del messaggio JSON incorretto");
         } catch (NoSuchMethodException e) {
-            System.out.println("The method get" + param.getFieldName().substring(0, 1).toUpperCase()
-                    + param.getFieldName().substring(1) + " cannot be found");
+            System.out.println("il metodo get" + param.getFieldName()+ " non può essere trovato");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "The method get" + param.getFieldName().substring(0, 1).toUpperCase()
-                            + param.getFieldName().substring(1) + " cannot be found");
+                    "Il metodo" + param.getFieldName()+ " non può essere trovato");
         } catch (SecurityException e) {
-            System.out.println("Security violation");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Security violation");
+            System.out.println("Violazione di sicurezza");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Violazione di sicurezza");
         }
         return out;
     }
@@ -206,7 +185,7 @@ public class PaymentService {
                 case "<=":
                     return PaymentValue <= InputValue;
                 default: throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                        "Illegal operator it must be ==, >, >=, <, <=");
+                        "operatore non conforme, gli operatori ammessi sono: ==, >, >=, <, <=");
             }
         }
         else if (inputValue instanceof String && paymentValue instanceof String) {
@@ -215,7 +194,7 @@ public class PaymentService {
             if (operator.equals("=="))
                 return inputString.equals(paymentString);
             else
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Illegal operator, it must be only == ");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Operatore non conforme, può essere solo == ");
 
 
         }
@@ -229,7 +208,36 @@ public class PaymentService {
         StartEnd[0] = paymentValueFix.substring(0,4);
         StartEnd[1] = paymentValueFix.substring(5,9);
         return StartEnd;
+        }
 
+        private Vector<Object> calculate(Integer count, Vector<Integer> store){
+            Integer min = store.get(0);
+            Integer max = store.get(0);
+            Double avg = (double) 0;
+            Long sum = (long) 0;
+            Double std = (double) 0;
+            Vector<Object> results = new Vector<Object>();
+            for (Integer item : store) {
+                avg += item;
+                if (item < min)
+                    min = item;
+                if (item > max)
+                    max = item;
+                sum += item;
+            }
+            avg = avg / count;
+
+            for(Integer item:store){
+                std+=(item-avg)*(item-avg);
+            }
+            std = Math.sqrt(std/(count));
+
+            results.add(avg);
+            results.add(min);
+            results.add(max);
+            results.add(std);
+            results.add(sum);
+        return results;
         }
 
 }
