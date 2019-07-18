@@ -68,7 +68,7 @@ Gives statistics on numbers fields of our CSV, based on the class  _DataStatisti
 
 NOTE: this command must be used only on numeric fields!
 
-``` json
+``` java
 results = calculate(store);
 ```
 
@@ -392,7 +392,21 @@ Here's some example of error notification:
     The following message is displayed if your request contain only "Period".   
     
     ``` "Devi specificare PeriodStart o PeriodEnd" ```
+## UML
+
+- [UML Class Diagram](inserire_link)
+
+- [UML Use Case Diagram](inserire_link)
+
+- [UML Sequence Diagram](inserire_link)    
+
+
+### The whole work was done by:
+- Alessandro Illuminati
+- Michele Zurlo
     
+All rights are reserved to their respective owners. 
+
               
               
                      

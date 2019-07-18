@@ -110,7 +110,7 @@ public class PaymentController {
                 app = paymentService.filter(app, filterParam);
             }
         }
-//TODO: TRATTINIIIIIIIIIIIIIIIIIIII
+
         if (!validRequest) {
             System.out.println("Incorrect JSON body");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Corpo del messaggio JSON errato");
