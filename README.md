@@ -60,6 +60,7 @@ Gives statistics on numbers fields of our CSV, based on the class  _DataStatisti
 -   Maximum
 -   Standard Deviation
 -   Sum
+
 NOTE: this command must be used only on numeric fields!
 
 ```
@@ -302,12 +303,12 @@ Our application is able to provide the user some information about errors that m
 Here's some example of error notification:
 - > localhost:8080/statistics/Foobar
 
-       The application return a BAD REQUEST with the following message:
+    The application return a BAD REQUEST with the following message:
        
-      ``` "Il metodo-Foobar-non esiste" ```  
+     ``` "Il metodo-Foobar-non esiste" ```  
 - > localhost:8080/statistics/Country
 
-       The application return a BAD REQUEST because it isn't possible to get statistics from a text field. The message displayed is:
+    The application return a BAD REQUEST because it isn't possible to get statistics from a text field. The message displayed is:
        
     ``` "Operazione di casting non consentita" ```
       
