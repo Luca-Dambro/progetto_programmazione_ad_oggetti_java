@@ -405,7 +405,7 @@ Here's some example of error notification:
 - Alessandro Illuminati
 - Michele Zurlo
     
-All rights are reserved to their respective owners. 
+© All rights are reserved to their respective owners. 
 
               
               
