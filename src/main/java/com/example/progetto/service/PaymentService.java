@@ -108,7 +108,7 @@ public class PaymentService {
             results = calculate(store);
 
         } catch (IllegalAccessException e) {
-            System.out.println("Il metodo " + m + " non ha accesso alla definizione del campo specifico");
+            System.out.println("Il metodo-" + m + "-non ha accesso alla definizione del campo specifico");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "non puoi accedere a questo metodo!:" + m);
         } catch (InvocationTargetException e) {
             e.printStackTrace();
@@ -116,7 +116,7 @@ public class PaymentService {
             System.out.println("Operazione di casting non consentita");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Operazione di casting non consentita");
         } catch (NoSuchMethodException e) {
-            System.out.println("Il metodo " + fieldName + " non esiste");
+            System.out.println("Il metodo-" + fieldName + "-non esiste");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Il metodo" + fieldName + "non esiste");
         } catch (SecurityException e) {
             System.out.println("Violazione di sicurezza!");
@@ -144,17 +144,19 @@ public class PaymentService {
         for the start or the end of the programming period.*/
         boolean flagStart=false,
                 flagEnd=false;
-        switch(param.getFieldName()){
-            case "PeriodStart":
-                param.setFieldName("Period");
-                flagStart=true;
-                break;
-            case"PeriodEnd":
-                param.setFieldName("Period");
-                flagEnd=true;
-                break;
-        }
+
+
         try {
+            switch (param.getFieldName()) {
+                case "PeriodStart":
+                    param.setFieldName("Period");
+                    flagStart = true;
+                    break;
+                case "PeriodEnd":
+                    param.setFieldName("Period");
+                    flagEnd = true;
+                    break;
+            }
             for (Payment item : payments) {
                 /*using a reflection to get a method from the object class (representing
                 class Payment) named as the type of the field we need to get using the
@@ -183,11 +185,11 @@ public class PaymentService {
                         out.add(item);}
             }
         } catch (IllegalAccessException e) {
-            System.out.println("Il metodo " + m + " non ha accesso alla definizione del campo specifico");
+            System.out.println("Il metodo-" + m + "-non ha accesso alla definizione del campo specifico");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "non puoi accedere a questo metodo!:" + m);
         } catch (IllegalArgumentException e) {
             System.out.println(
-                    "un argomento inaspettato o non conforme " + param.getValue() + " è stato passato al metodo");
+                    "un argomento inaspettato o non conforme-" + param.getValue() + "-è stato passato al metodo");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "argomento non conforme");
         } catch (InvocationTargetException e) {
             e.printStackTrace();
@@ -195,9 +197,9 @@ public class PaymentService {
             System.out.println("Corpo del messaggio JSON incorretto");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Corpo del messaggio JSON incorretto");
         } catch (NoSuchMethodException e) {
-            System.out.println("il metodo get" + param.getFieldName()+ " non può essere trovato");
+            System.out.println("il metodo get-" + param.getFieldName() + "-non può essere trovato");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Il metodo" + param.getFieldName()+ " non può essere trovato");
+                    "Il metodo-" + param.getFieldName() + "-non può essere trovato");
         } catch (SecurityException e) {
             System.out.println("Violazione di sicurezza!");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Violazione di sicurezza!");

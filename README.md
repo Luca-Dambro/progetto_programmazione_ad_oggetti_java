@@ -336,7 +336,8 @@ Here's some example of error notification:
     "value": "ERDF"
     }            
     ```
-    The application return a BAD REQUEST with the following message:
+    The application return a BAD REQUEST because it isn't possible to apply the specified
+     operator to a string field. It displays the following message:
                                    
    ``` "Operatore non conforme, può essere solo ==" ```
    
@@ -360,8 +361,9 @@ Here's some example of error notification:
     ]
     }
     ```    
-    The application return a BAD REQUEST with the following message:
-
+    The application return a BAD REQUEST because of the wrong syntax for the conditional operator.
+    The following message is also printed if the user writes a wrong key, for example "fieldNam" instead of "fieldName" in single or multiple filter.
+   
     ``` "Corpo del messaggio JSON errato" ```
 - > localhost:8080/filter/
 
@@ -377,9 +379,14 @@ Here's some example of error notification:
     The application return a BAD REQUEST with the following message:
                                    
    ``` "Operatore non conforme, gli operatori ammessi sono: ==, >, >=, <, <=" ```
-      
-
-
+- > localhost:8080/statistics/Period
+    
+    Following the characteristic representation for the field "Programming-Period" 
+    that was implemented to get statistics (and also to use filter) 
+    you need to specify "PeriodStart" or "PeriodEnd".
+    The following message is displayed if your request contain only "Period".   
+    
+    ``` "Devi specificare PeriodStart o PeriodEnd" ```
     
               
               
