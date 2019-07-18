@@ -60,6 +60,7 @@ Gives statistics on numbers fields of our CSV, based on the class  _DataStatisti
 -   Maximum
 -   Standard Deviation
 -   Sum
+NOTE: this command must be used only on numeric fields!
 
 ```
 results = calculate(store);
@@ -119,7 +120,7 @@ _response:_
 
 ```
 
-###count/{fieldName}
+### count/{fieldName}
 
 Returns the number of times the string of the specified field occourred.
 It needs a field name in the query path and a value to confront in the query params.
@@ -295,3 +296,90 @@ _response:_
     "sum": 124058
 }
 ```
+
+### Error handler
+Our application is able to provide the user some information about errors that might occur caused by invalid input or misspelled words in the various requests.
+Here's some example of error notification:
+- > localhost:8080/statistics/Foobar
+
+       The application return a BAD REQUEST with the following message:
+       
+      ``` "Il metodo-Foobar-non esiste" ```  
+- > localhost:8080/statistics/Country
+
+       The application return a BAD REQUEST because it isn't possible to get statistics from a text field. The message displayed is:
+       
+    ``` "Operazione di casting non consentita" ```
+      
+- > localhost:8080/filter/
+
+    _JSON body:_
+
+   ```
+    {
+        "fieldName": "Fond",
+         "operator": "==",
+         "value": "ERDF"
+    }
+   ```
+   The application return a BAD REQUEST with the following message:
+   
+   ```"Il metodo-Fond-non può essere trovato" ```
+- > localhost:8080/filter/
+
+    _JSON body:_
+    ```
+    {
+    "fieldName": "Fund",
+    "operator": ">=",
+    "value": "ERDF"
+    }            
+    ```
+    The application return a BAD REQUEST with the following message:
+                                   
+   ``` "Operatore non conforme, può essere solo ==" ```
+   
+- > localhost:8080/filter/
+
+    _JSON body:_
+    ```
+    {
+    "or": [
+     
+        {
+            "fieldName": "NUTS2_name",
+            "operator": "==",
+            "value": "Puglia"
+        },
+        {
+         "fieldName": "NUTS2_name",
+            "operator": "==",
+            "value": "Marche"   
+        }
+    ]
+    }
+    ```    
+    The application return a BAD REQUEST with the following message:
+
+    ``` "Corpo del messaggio JSON errato" ```
+- > localhost:8080/filter/
+
+    _JSON body:_
+
+    ```
+    {
+        "fieldName": "Year",
+        "operator": "===",
+        "value": "2000"
+    }
+    ```
+    The application return a BAD REQUEST with the following message:
+                                   
+   ``` "Operatore non conforme, gli operatori ammessi sono: ==, >, >=, <, <=" ```
+      
+
+
+    
+              
+              
+                     
