@@ -44,9 +44,6 @@ Furthermore, regular expressions are adopted in order to obtain a correct readin
 private String cvsSplitBy = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
 ```
 
-
-
-
 ## GET REQUESTS
 
 ### /showdataset
@@ -56,7 +53,7 @@ This request return all the data-set.
 This request return all header of the data-set.
 
 ### /statistics/{fieldName}
-Gives statistics on numbers based on the class  _DataStatistics_:
+Gives statistics on numbers fields of our CSV, based on the class  _DataStatistics_:
 
 -   Average
 -   Minimum
@@ -65,22 +62,236 @@ Gives statistics on numbers based on the class  _DataStatistics_:
 -   Sum
 
 ```
- count = store.size();
-            min = store.get(0);
-            max = store.get(0);
-            for (Integer item : store) {
-                avg += item;
-                if (item < min)
-                    min = item;
-                if (item > max)
-                    max = item;
-                sum += item;
+results = calculate(store);
+```
+
+```
+ private Vector<Object> calculate(Vector<Integer> store) {
+        Integer count = store.size();
+        Integer min = store.get(0);
+        Integer max = store.get(0);
+        Double avg = (double) 0;
+        Long sum = (long) 0;
+        Double std = (double) 0;
+        Vector<Object> results = new Vector<Object>();
+        for (Integer item : store) {
+            avg += item;
+            if (item < min)
+                min = item;
+            if (item > max)
+                max = item;
+            sum += item;
+        }
+        avg = avg / count;
+
+        for(Integer item:store){
+            std+=(item-avg)*(item-avg);
+        }
+        std = Math.sqrt(std/(count));
+
+        results.add(avg);
+        results.add(min);
+        results.add(max);
+        results.add(std);
+        results.add(sum);
+        return results;
+    }   
+```
+
+```
+return new DataStatistics((double)results.get(0), (int)results.get(1), (int)results.get(2), (double)results.get(3), (long)results.get(4));
+```
+
+_example of use:_
+
+> localhost:8080/statistics/Year
+
+_response:_
+
+```
+{
+        "avg": 2004.8884111095447,
+        "min": 1986,
+        "max": 2016,
+        "std": 6.545637133705266,
+        "sum": 56882694
+}
+
+```
+
+###count/{fieldName}
+
+Returns the number of times the string of the specified field occourred.
+It needs a field name in the query path and a value to confront in the query params.
+```
+(@PathVariable String fieldName, @RequestParam(value = "value") String value)
+```
+_example of use:_
+
+> localhost:8080/count/NUTS2_name?value=Marche
+
+_response:_
+
+```
+{
+    "count": 136
+}
+```
+
+## POST REQUESTS
+
+### /filter
+This is a general filter command using a POST request.
+In the body of the JSON request of the user, you need to specify a field where to apply the filter, a conditional operator and an input value. Sending the request gets you the filtered data-set, showing all the occurrences that respect given rules.
+If it is found a logical operator ("$or" or "$and") multiple filters, represented by an array of JSON request, are applied at the data-set on the specified fields.
+The conditional operator "$or" filter the date-set for each JSON request merging all the occurrences given rules.
+The conditional operator "$and" filter the data-set recursively for each JSON request, applying filter rules on the previous filtered data-set until all requests are satisfied.
+
+_$or code:_
+
+```
+for (Object obj : jsonArray) {
+                filterParam.readFields(obj);
+                appOr = paymentService.filter(paymentService.getPayments(), filterParam);
+                for (Payment item : appOr) {
+                    if (!app.contains(item))
+                        app.add(item);
+                }
             }
-            avg = avg / count;
-            for(Integer item:store){
-                std+=(item-avg)*(item-avg);
+```    
+_$and code:_
+
+```
+ for (Object obj : jsonArray) {
+                filterParam.readFields(obj);
+                // iteration on filter method, for each new cycle we use as vector to
+                //filter the output vector from the precedent cycle
+                app = paymentService.filter(app, filterParam);
             }
-            std = Math.sqrt(std/(count));
-            
-          return new DataStatistics(avg, min, max, std, sum);
+        }
+```               
+_example of use:_
+
+> localhost:8080/filter
+
+_JSON body:_
+```  
+{
+            "fieldName": "Fund",
+            "operator": "==",
+            "value": "ERDF"
+ }
+ ```  
+ 
+_JSON body:_
+```  
+ {
+     "$and": [
+         {
+             "fieldName": "PeriodStart",
+             "operator": ">=",
+             "value": "2000"
+         },
+         {
+             "fieldName": "PeriodEnd",
+             "operator": "<=",
+             "value": "2006"
+         }
+     ]
+ }
+``` 
+_JSON body:_
+```  
+  {
+      "$or": [
+          {
+              "fieldName": "EU_Payment_annual",
+              "operator": ">",
+              "value": "20000"
+          },
+          {
+              "fieldName": "EU_Payment_annual",
+              "operator": "<",
+              "value": "90000"
+          }
+      ]
+  }
+```  
+This multiple filter example also implements the conditional operator between, moreover is possible to apply this filter with different field names.
+
+_JSON body:_
+```  
+{
+    "$or": [
+        {
+            "fieldName": "EU_Payment_annual",
+            "operator": ">",
+            "value": "2000000"
+        },
+        {
+            "fieldName": "Modelled_annual_expenditure",
+            "operator": "<",
+            "value": "90000"
+        }
+    ]
+}
+ ```  
+Another example of multiple filter using more JSON objects is:
+ ```  
+{
+    "$and": [
+        {
+            "fieldName": "PeriodStart",
+            "operator": ">",
+            "value": "2005"
+        },
+        {
+            "fieldName": "Country",
+            "operator": "==",
+            "value": "IT"
+        },
+        {
+            "fieldName": "Standard_Deviation_of_annual_expenditure",
+            "operator": "<=",
+            "value": "100000"
+        },
+    ]
+}
+ ```  
+### /filter/statistics/{fieldName}
+This filter gives statistics on a certain field name as the one explained before, but this is using a POST request and thanks to that is possible to get statistics on a filtered list of payments.
+In the body of the JSON request is possible to specify filter rules with the same syntax used for "/filter" command.
+
+_example of use:_
+
+> localhost:8080/filter/statistics/PeriodEnd
+
+_JSON body:_
+```
+{
+    "$and": [
+     
+        {
+            "fieldName": "NUTS2_name",
+            "operator": "==",
+            "value": "Puglia"
+        },
+        {
+            "fieldName": "Standard_Error_of_modelled_annual_expenditure",
+            "operator": "<=",
+            "value": "100000"
+        }
+    ]
+}
+```
+_response:_
+
+```
+{
+    "avg": 2000.9354838709678,
+    "min": 1993,
+    "max": 2013,
+    "std": 7.079891943183822,
+    "sum": 124058
+}
 ```
