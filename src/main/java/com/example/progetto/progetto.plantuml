@@ -1,0 +1,33 @@
+@startuml
+
+title __PROGETTO's Class Diagram__\n
+
+    namespace com.example.progetto {
+      class com.example.progetto.GetCSVfromJSON {
+          {static} + fileName : String
+          - link : String
+          + getlink()
+          ~ download()
+          ~ readUrlFromJSON()
+          - FindCsvlink()
+          {static} - readAll()
+      }
+    }
+  
+
+    namespace com.example.progetto {
+      class com.example.progetto.ProgettoApplication {
+          {static} + main()
+      }
+    }
+
+  
+
+
+
+right footer
+
+
+endfooter
+
+@enduml

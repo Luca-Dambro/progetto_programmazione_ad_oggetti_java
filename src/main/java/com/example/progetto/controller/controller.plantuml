@@ -1,0 +1,27 @@
+@startuml
+
+title __CONTROLLER's Class Diagram__\n
+
+    namespace com.example.progetto {
+      namespace controller {
+        class com.example.progetto.controller.PaymentController {
+            + count()
+            + filter()
+            + filterStats()
+            + retrieveHeader()
+            + retrievePayments()
+            + statistics()
+        }
+    }
+  }
+  
+
+  com.example.progetto.controller.PaymentController o-- com.example.progetto.service.PaymentService : paymentService
+
+
+right footer
+
+
+endfooter
+
+@enduml

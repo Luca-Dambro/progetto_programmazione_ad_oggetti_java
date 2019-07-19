@@ -1,0 +1,30 @@
+@startuml
+
+title __SERVICE's Class Diagram__\n
+
+    namespace com.example.progetto {
+      namespace service {
+        class com.example.progetto.service.PaymentService {
+            {static} - metadata : Vector<Header>
+            {static} - payments : Vector<Payment>
+            {static} + check()
+            + filter()
+            + getHeader()
+            + getPayments()
+            {static} + setHeader()
+            {static} + setPayments()
+            + statistics()
+            - calculate()
+            - getStartEnd()
+        }
+      }
+    }
+
+
+
+right footer
+
+
+endfooter
+
+@enduml

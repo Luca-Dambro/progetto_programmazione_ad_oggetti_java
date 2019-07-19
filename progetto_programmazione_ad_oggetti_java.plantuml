@@ -1,0 +1,110 @@
+@startuml
+
+title __PROGETTO's Class Diagram__\n
+
+
+
+    namespace com.example.progetto {
+      class com.example.progetto.GetCSVfromJSON {
+
+      }
+  }
+  
+
+
+    namespace com.example.progetto {
+      class com.example.progetto.ProgettoApplication {
+    }
+  }
+  
+
+    namespace com.example.progetto {
+      namespace controller {
+        class com.example.progetto.controller.PaymentController {
+        }
+      }
+  }
+  
+
+    namespace com.example.progetto {
+      namespace csv {
+        class com.example.progetto.csv.Conversions {
+        }
+      }
+    }
+  
+
+    namespace com.example.progetto {
+      namespace csv {
+        class com.example.progetto.csv.CsvParser {
+        }
+      }
+  }
+  
+
+    namespace com.example.progetto {
+      namespace csv {
+        class com.example.progetto.csv.CsvUtilities {
+        }
+    }
+  }
+  
+
+    namespace com.example.progetto {
+      namespace model {
+        class com.example.progetto.model.DataFiltering {
+        }
+      }
+  }
+  
+
+    namespace com.example.progetto {
+      namespace model {
+        class com.example.progetto.model.DataStatistics {
+        }
+    }
+  }
+  
+
+    namespace com.example.progetto {
+      namespace model {
+        class com.example.progetto.model.Header {
+        }
+      }
+  }
+  
+
+    namespace com.example.progetto {
+      namespace model {
+        class com.example.progetto.model.Payment {
+        }
+      }
+  }
+  
+
+    namespace com.example.progetto {
+      namespace model {
+        class com.example.progetto.model.Programming_Period {
+        }
+    }
+  }
+  
+
+    namespace com.example.progetto {
+      namespace service {
+        class com.example.progetto.service.PaymentService {
+        }
+      }
+  }
+  
+
+  com.example.progetto.controller.PaymentController o-- com.example.progetto.service.PaymentService : paymentService
+  com.example.progetto.model.Payment o-- com.example.progetto.model.Programming_Period : Period
+
+
+right footer
+
+
+endfooter
+
+@enduml

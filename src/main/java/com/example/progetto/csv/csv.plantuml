@@ -1,0 +1,62 @@
+@startuml
+
+title __CSV's Class Diagram__\n
+
+    namespace com.example.progetto {
+      namespace csv {
+        class com.example.progetto.csv.Conversions {
+            {static} + convInteger()
+            {static} + convProgramming_Period()
+            {static} + convString()
+        }
+      }
+  }
+  
+
+    namespace com.example.progetto {
+      namespace csv {
+        class com.example.progetto.csv.CsvParser {
+            - currentLine : String
+            - cvsSplitBy : String
+            - flagParse : boolean
+            - metadata : Vector<Header>
+            - path : Path
+            - payments : Vector<Payment>
+            + CsvParser()
+            + displayParse()
+            + executeParse()
+            + getMetadata()
+            + getPayments()
+            + setMetadata()
+            + setPayments()
+            - ParserLogic()
+        }
+      }
+    }
+  
+
+    namespace com.example.progetto {
+      namespace csv {
+        class com.example.progetto.csv.CsvUtilities {
+            - br : BufferedReader
+            - flag : boolean
+            - line : String
+            ~ CsvUtilities()
+            ~ CsvUtilities()
+            ~ getFirstLine()
+            ~ getLine()
+            ~ print()
+            ~ splitLine()
+        }
+      }
+    }
+  
+
+
+
+right footer
+
+
+endfooter
+
+@enduml

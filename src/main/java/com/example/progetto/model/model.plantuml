@@ -1,0 +1,132 @@
+@startuml
+
+title __MODEL's Class Diagram__\n
+
+    namespace com.example.progetto {
+      namespace model {
+        class com.example.progetto.model.DataFiltering {
+            - fieldName : String
+            - operator : String
+            - value : Object
+            + DataFiltering()
+            + getFieldName()
+            + getOperator()
+            + getValue()
+            + readFields()
+            + setFieldName()
+            + setOperator()
+            + setValue()
+        }
+      }
+    }
+  
+
+    namespace com.example.progetto {
+      namespace model {
+        class com.example.progetto.model.DataStatistics {
+            - avg : double
+            - max : int
+            - min : int
+            - std : double
+            - sum : long
+            + DataStatistics()
+            + getAvg()
+            + getMax()
+            + getMin()
+            + getStd()
+            + getSum()
+            + setAvg()
+            + setMax()
+            + setMin()
+            + setStd()
+            + setSum()
+        }
+      }
+    }
+  
+
+    namespace com.example.progetto {
+      namespace model {
+        class com.example.progetto.model.Header {
+            - CsvFieldName : String
+            - FieldType : String
+            - PaymentFieldName : String
+            + Header()
+            + getCsvFieldName()
+            + getFieldType()
+            + getPaymentFieldName()
+            + setCsvFieldName()
+            + setFieldType()
+            + setPaymentFieldName()
+            + toString()
+        }
+      }
+    }
+  
+
+    namespace com.example.progetto {
+      namespace model {
+        class com.example.progetto.model.Payment {
+            - Country : String
+            - EU_Payment_annual : Integer
+            - Fund : String
+            - Modelled_annual_expenditure : Integer
+            - NUTS1_ID : String
+            - NUTS2_ID : String
+            - NUTS2_name : String
+            - Standard_Deviation_of_annual_expenditure : Integer
+            - Standard_Error_of_modelled_annual_expenditure : Integer
+            - Year : Integer
+            + getCountry()
+            + getEU_Payment_annual()
+            + getFund()
+            + getModelled_annual_expenditure()
+            + getNUTS1_ID()
+            + getNUTS2_ID()
+            + getNUTS2_name()
+            + getPeriod()
+            + getStandard_Deviation_of_annual_expenditure()
+            + getStandard_Error_of_modelled_annual_expenditure()
+            + getYear()
+            + setCountry()
+            + setEU_Payment_annual()
+            + setFund()
+            + setModelled_annual_expenditure()
+            + setNUTS1_ID()
+            + setNUTS2_ID()
+            + setNUTS2_name()
+            + setPeriod()
+            + setStandard_Deviation_of_annual_expenditure()
+            + setStandard_Error_of_modelled_annual_expenditure()
+            + setYear()
+            + toString()
+        }
+      }
+    }
+
+  
+
+    namespace com.example.progetto {
+      namespace model {
+        class com.example.progetto.model.Programming_Period {
+            - ProgrammingPeriodEnd : String
+            - ProgrammingPeriodStart : String
+            + getProgrammingPeriodEnd()
+            + getProgrammingPeriodStart()
+            + setProgrammingPeriodEnd()
+            + setProgrammingPeriodStart()
+            + toString()
+        }
+      }
+    }
+  
+
+  com.example.progetto.model.Payment o-- com.example.progetto.model.Programming_Period : Period
+
+
+right footer
+
+
+endfooter
+
+@enduml
