@@ -394,11 +394,18 @@ Here's some example of error notification:
     ``` "Devi specificare PeriodStart o PeriodEnd" ```
 ## UML
 
-- [UML Class Diagram](inserire_link)
+1) [UML Use Case Diagram](https://drive.google.com/file/d/1jjNpb1hP0oUcE1aNCSdteJ7YkOBO130W/view?usp=sharing)
 
-- [UML Use Case Diagram](https://drive.google.com/file/d/1jjNpb1hP0oUcE1aNCSdteJ7YkOBO130W/view?usp=sharing)
+2) [UML Sequence Diagram](inserire_link) 
 
-- [UML Sequence Diagram](inserire_link)    
+3) [UML Class Diagram]()
+
+    - [Class_Diagram_1] (https://drive.google.com/file/d/18J_jcwsflYLqtA3btzebsAb71EV9P9z1/view?usp=sharing)
+    - [Class_Diagram_2] (https://drive.google.com/file/d/1mBf6pstxePs2tSEHRRzffVzB9raA0eKi/view?usp=sharing)
+    - [Class_Diagram_3] (https://drive.google.com/file/d/128k9uPV4EBTu3ACTlwuC5jtmFlFidXJd/view?usp=sharing)
+    - [Class_Diagram_4] (https://drive.google.com/file/d/1wkCoYw7SQgNGwR6T79X5GCBw1IbmHmvD/view?usp=sharing)
+    - [Class_Diagram_5] (https://drive.google.com/file/d/1icfE7fAUKtMK4rZuiirgW7Fq_3KjA2mR/view?usp=sharing)
+    - [Class_Diagram_6] (https://drive.google.com/file/d/1BIMFgtl2g9JeyEQ6zMdEKiODtaHQ6UyP/view?usp=sharing)
 
 
 ### The whole work was done by:
