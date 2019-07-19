@@ -394,7 +394,7 @@ Here's some example of error notification:
     ``` "Devi specificare PeriodStart o PeriodEnd" ```
 ## UML
 
-- [UML Class Diagram](inserire_link)
+- [UML Class Diagram](https://drive.google.com/drive/my-drive)
 
 - [UML Use Case Diagram](inserire_link)
 
