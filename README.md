@@ -396,7 +396,7 @@ Here's some example of error notification:
 
 1) [UML Use Case Diagram](https://drive.google.com/file/d/1jjNpb1hP0oUcE1aNCSdteJ7YkOBO130W/view?usp=sharing)
 
-2)[UML Sequence Diagram](inserire_link) 
+2)  [UML Sequence Diagram](inserire_link) 
 
 3) #### UML Class Diagram
 
